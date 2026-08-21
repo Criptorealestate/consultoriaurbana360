@@ -51,3 +51,5 @@ El HTML trae algunas referencias que siguen apuntando al dominio real
 (`consultoriaurbana360.com`) en metadatos (og:image, canonical) — no afectan
 la visualización, pero si vas a usar este proyecto como el sitio oficial
 nuevo, actualiza esas referencias a tu dominio final antes de publicar.
+
+<!-- test: verificando auto-deploy Vercel -->
