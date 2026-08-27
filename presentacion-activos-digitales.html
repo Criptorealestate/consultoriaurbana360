@@ -526,64 +526,53 @@
     right:24px;
     z-index:40;
     display:flex;
-    gap:8px;
+    gap:10px;
     align-items:center;
   }
-  .edit-btn{
-    background:rgba(255,255,255,.9);
-    border:1px solid var(--border);
+  #edit-status{
+    font-size:.8rem;
     color:var(--purple-dark);
-    border-radius:999px;
-    padding:9px 16px;
-    font-size:.82rem;
-    font-family:var(--sans);
-    font-weight:600;
-    cursor:pointer;
-    box-shadow:var(--shadow);
-    backdrop-filter:blur(6px);
-    display:flex;
-    align-items:center;
-    gap:6px;
-    transition:transform .15s ease, background .15s ease;
-  }
-  .edit-btn:hover{ transform:translateY(-2px); background:#fff; }
-  .edit-btn.on{ background:var(--purple-2); color:#fff; border-color:var(--purple-2); }
-  .edit-btn svg{ width:14px;height:14px; }
-  .edit-status{
-    font-size:.76rem;
-    color:var(--text-soft);
     background:rgba(255,255,255,.85);
     border:1px solid var(--border);
-    padding:6px 12px;
+    padding:8px 14px;
     border-radius:999px;
+    box-shadow:var(--shadow);
+    backdrop-filter:blur(6px);
     opacity:0;
-    transition:opacity .3s ease;
+    transform:translateY(-4px);
+    transition:opacity .25s ease, transform .25s ease;
     pointer-events:none;
+    white-space:nowrap;
   }
-  .edit-status.show{ opacity:1; }
+  #edit-status.show{ opacity:1; transform:translateY(0); }
+
+  #btn-edit.on{ background:var(--purple-2); color:#fff; }
+  #btn-edit.on:hover{ background:var(--purple-dark); }
+  #btn-reset{ display:none; }
+  body.edit-mode #btn-reset{ display:flex; }
 
   body.edit-mode [data-editable]{
     outline:1px dashed transparent;
-    outline-offset:3px;
+    outline-offset:4px;
     border-radius:3px;
     cursor:text;
     transition:outline-color .15s ease, background .15s ease;
   }
   body.edit-mode [data-editable]:hover{
-    outline-color: rgba(75,63,214,.45);
-    background: rgba(75,63,214,.05);
+    outline-color: rgba(75,63,214,.5);
+    background: rgba(75,63,214,.06);
   }
   body.edit-mode [data-editable]:focus{
-    outline:1px solid var(--purple-2);
-    outline-offset:3px;
-    background: rgba(75,63,214,.07);
+    outline:2px solid var(--purple-2);
+    outline-offset:4px;
+    background: rgba(75,63,214,.08);
   }
   body.edit-mode #deck{ cursor:default; }
   body.edit-mode .slide{ transition:none; }
 
   @media (max-width: 860px){
-    #edit-toolbar{ top:auto; bottom:70px; right:14px; flex-wrap:wrap; justify-content:flex-end; max-width:200px; }
-    .edit-btn{ padding:7px 12px; font-size:.72rem; }
+    #edit-toolbar{ top:auto; bottom:70px; right:14px; }
+    #edit-status{ display:none; }
   }
 
   @media print{
@@ -606,18 +595,15 @@
 <div id="progress"><div id="progress-bar"></div></div>
 
 <div id="edit-toolbar">
-  <span class="edit-status" id="edit-status">Guardado ✓</span>
-  <button class="edit-btn" id="btn-reset" title="Borra tus ediciones y regresa al texto original">
+  <span id="edit-status">Guardado ✓</span>
+  <button class="ctrl-btn" id="btn-reset" aria-label="Restablecer" title="Borra tus ediciones y regresa al texto original">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 109-9 9.75 9.75 0 00-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-    Restablecer
   </button>
-  <button class="edit-btn" id="btn-download" title="Descarga esta presentación con tus ediciones como un HTML nuevo">
+  <button class="ctrl-btn" id="btn-download" aria-label="Descargar" title="Descarga esta presentación con tus ediciones como un HTML nuevo">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
-    Descargar HTML
   </button>
-  <button class="edit-btn" id="btn-edit" title="Activa o desactiva la edición de textos">
+  <button class="ctrl-btn" id="btn-edit" aria-label="Editar" title="Activa la edición: pasa el cursor sobre cualquier texto y haz clic para escribir">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4z"/></svg>
-    Editar
   </button>
 </div>
 
@@ -1045,7 +1031,11 @@
   document.getElementById('btn-next').addEventListener('click', next);
   document.getElementById('btn-prev').addEventListener('click', prevSlide);
 
+  // NOTE: keyboard/click/swipe navigation below all defer to inline-editing —
+  // see `editMode` (declared further down) — so a stray arrow key, click or
+  // swipe never fights with placing a cursor or selecting text while editing.
   document.addEventListener('keydown', function(e){
+    if(editMode) return; // let arrow keys / space / home / end behave normally inside contenteditable
     if(['ArrowRight','ArrowDown','PageDown',' '].indexOf(e.key) > -1){ e.preventDefault(); next(); }
     else if(['ArrowLeft','ArrowUp','PageUp'].indexOf(e.key) > -1){ e.preventDefault(); prevSlide(); }
     else if(e.key === 'Home'){ goTo(0); }
@@ -1055,7 +1045,8 @@
 
   // click zones on the deck (left third = prev, right two-thirds = next), ignore control buttons
   document.getElementById('deck').addEventListener('click', function(e){
-    if(e.target.closest('#controls')) return;
+    if(editMode) return; // let clicks land on the text to place the cursor instead of changing slides
+    if(e.target.closest('#controls') || e.target.closest('#edit-toolbar')) return;
     var x = e.clientX / window.innerWidth;
     if(x < 0.22) prevSlide(); else next();
   });
@@ -1064,6 +1055,7 @@
   var touchStartX = null;
   document.addEventListener('touchstart', function(e){ touchStartX = e.touches[0].clientX; }, {passive:true});
   document.addEventListener('touchend', function(e){
+    if(editMode) return; // don't hijack touch-drag text selection while editing
     if(touchStartX === null) return;
     var dx = e.changedTouches[0].clientX - touchStartX;
     if(Math.abs(dx) > 50){ dx < 0 ? next() : prevSlide(); }
@@ -1124,14 +1116,19 @@
   }
 
   var editMode = false;
+  var btnEdit = document.getElementById('btn-edit');
   function setEditMode(on){
     editMode = on;
     document.body.classList.toggle('edit-mode', on);
     editableEls.forEach(function(el){ el.setAttribute('contenteditable', on ? 'true' : 'false'); });
-    var btn = document.getElementById('btn-edit');
-    btn.classList.toggle('on', on);
-    btn.lastChild.textContent = on ? ' Listo' : ' Editar';
-    if(on) flashStatus('Modo edición — haz clic en cualquier texto');
+    btnEdit.classList.toggle('on', on);
+    btnEdit.setAttribute('title', on
+      ? 'Edición activa — pasa el cursor sobre un texto y haz clic para salir'
+      : 'Activa la edición: pasa el cursor sobre cualquier texto y haz clic para escribir');
+    btnEdit.innerHTML = on
+      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>'
+      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4z"/></svg>';
+    if(on) flashStatus('Modo edición — pasa el cursor y haz clic en el texto');
   }
 
   var saveDebounce = null;
