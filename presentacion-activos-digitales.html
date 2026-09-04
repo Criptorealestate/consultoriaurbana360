@@ -1084,6 +1084,14 @@
   document.getElementById('btn-fs').addEventListener('click', toggleFullscreen);
 
   // ---- inline editing ----
+  // Resolve the Artifact "downloads" capability once, if this copy happens
+  // to be running inside a Claude Artifact viewer (window.claude.use exists
+  // there but not on a plain file:// open or a normal web host). Caches to
+  // null when unavailable so the download button can fall back cleanly.
+  var downloadsCapPromise = (window.claude && typeof window.claude.use === 'function')
+    ? window.claude.use('downloads').catch(function(){ return null; })
+    : Promise.resolve(null);
+
   var STORAGE_KEY = 'binkio-deck-edits-v1';
   var EDITABLE_SELECTOR = 'h1, h2, h3, p, li, .stat-num, .stat-sub, .stat-caption, .quote-small, .quote-tiny, .quote-big, .quote-attrib, .flow-label';
   var editableEls = [];
@@ -1176,18 +1184,37 @@
     if(editStatusEl) editStatusEl.classList.remove('show'); // don't bake a transient toast into the export
     var html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
     var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement('a');
-    a.href = url;
-    a.download = 'presentacion-activos-digitales-editado.html';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
-    // restore editable tagging for continued use in this session
-    tagEditables();
-    if(wasEditing) setEditMode(true);
-    flashStatus('Descargado ✓');
+
+    function finishExport(msg){
+      // restore editable tagging for continued use in this session
+      tagEditables();
+      if(wasEditing) setEditMode(true);
+      flashStatus(msg);
+    }
+
+    downloadsCapPromise.then(function(downloads){
+      if(downloads){
+        // running inside a Claude Artifact viewer — its sandbox blocks a
+        // plain <a download> link, so hand the file to the platform's
+        // save prompt instead.
+        downloads.save({ filename: 'presentacion-activos-digitales-editado.html', data: blob })
+          .then(function(){ finishExport('Descargado ✓'); })
+          .catch(function(err){
+            finishExport(err && err.code === 'declined' ? 'Descarga cancelada' : 'No se pudo descargar aquí');
+          });
+      }else{
+        // plain file / normal web host — classic blob download link
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'presentacion-activos-digitales-editado.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+        finishExport('Descargado ✓');
+      }
+    });
   });
 
   tagEditables();
