@@ -33,20 +33,19 @@
   --w08:rgba(255,255,255,.08);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;background:#0b0b0f;overflow:hidden}
+html,body{height:100%;background:var(--navy);overflow:hidden}
 body{font-family:"Inter",system-ui,sans-serif}
 #stage{position:absolute;left:50%;top:50%;width:1080px;height:1920px;overflow:hidden;color:var(--white);
-  background:radial-gradient(90% 45% at 50% 0%,rgba(10,71,240,.38) 0%,rgba(10,71,240,0) 100%),radial-gradient(70% 35% at 100% 100%,rgba(255,31,122,.16) 0%,rgba(255,31,122,0) 100%),var(--navy);transform-origin:0 0}
-#grid{position:absolute;inset:0;background-image:linear-gradient(var(--w08) 2px,transparent 2px),linear-gradient(90deg,var(--w08) 2px,transparent 2px);background-size:120px 120px;opacity:.45}
+  background:var(--navy);transform-origin:0 0}
 .scene{position:absolute;inset:0;visibility:hidden}
 .mont{font-family:"Montserrat",sans-serif}
 em{font-style:normal;color:var(--accent)}
 .up{text-transform:uppercase}
 
 /* Barra superior: logo + progreso */
-#top{position:absolute;left:70px;right:70px;top:80px;height:110px;display:flex;align-items:center;justify-content:space-between}
+#top{position:absolute;left:70px;right:70px;top:60px;height:150px;display:flex;align-items:center;justify-content:space-between}
 .logo{display:flex;align-items:center;gap:20px}
-.logo img{height:110px;width:auto;display:block}
+.logo img{height:140px;width:auto;display:block}
 .logo .mt{width:110px;height:82px;display:block;filter:drop-shadow(0 0 10px rgba(61,192,255,.55))}
 .logo .word{font:800 40px/1 "Montserrat";letter-spacing:.12em}
 .logo .word small{display:block;font:600 17px/1 "Montserrat";letter-spacing:.42em;color:var(--cyan);margin-top:10px}
@@ -122,7 +121,7 @@ em{font-style:normal;color:var(--accent)}
 .check .c path{fill:none;stroke:var(--white);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
 
 /* Outro */
-#outro .bigLogo{position:absolute;left:220px;top:200px;width:640px;height:500px;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 0 30px rgba(10,140,255,.45)) drop-shadow(0 0 50px rgba(255,31,122,.25))}
+#outro .bigLogo{position:absolute;left:220px;top:200px;width:640px;height:500px;display:flex;align-items:center;justify-content:center}
 #outro .bigLogo img{max-width:640px;max-height:500px;display:block}
 #outro .bigLogo svg{width:470px;height:auto;overflow:visible}
 #outro .h{position:absolute;left:70px;right:70px;top:740px;text-align:center;font:900 80px/1.08 "Montserrat";text-transform:uppercase}
@@ -142,8 +141,7 @@ body.export #ui,body.export #time{display:none}
 </head>
 <body>
 <div id="stage">
-  <div id="grid"></div>
-
+  
   <!-- Barra superior: logo + progreso de pasos -->
   <div id="top">
     <div class="logo" id="topLogo"></div>
@@ -319,8 +317,8 @@ const fullLogoSVG = () => `<svg viewBox="150 0 1240 1000">${MOUNTAIN}
   <rect x="325" y="968" width="890" height="6" rx="3" fill="var(--cyan)" opacity=".8"/></svg>`;
 $("#topLogo").innerHTML = mountainSVG() + `<div class="word">NIVEL 5<small>REALTY GROUP</small></div>`;
 $("#bigLogo").innerHTML = fullLogoSVG();
-// Logo oficial: si existe reels/n5-logo.png (o .svg) se usa en lugar del vector.
-const LOGO_FILES = ["n5-logo.svg", "n5-logo.png"];
+// Logo oficial en PNG con fondo transparente (reels/n5-logo.png).
+const LOGO_FILES = ["n5-logo.png"];
 const loadOfficialLogo = () => LOGO_FILES.reduce((pr, f) => pr.then(ok => ok || new Promise(res => {
   const img = new Image(); img.onload = () => res(f); img.onerror = () => res(null); img.src = f;
 })), Promise.resolve(null)).then(f => {
