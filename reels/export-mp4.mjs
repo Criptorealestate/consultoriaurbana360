@@ -18,7 +18,8 @@ await page.waitForFunction(() => window.__ready === true);
 const DURATION = await page.evaluate(() => DURATION);
 
 const ff = spawn("ffmpeg", ["-y", "-f", "image2pipe", "-framerate", String(fps), "-i", "-",
-  "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "16", "-preset", "slow", "-movflags", "+faststart", out],
+  "-vf", "scale=out_color_matrix=bt709:out_range=tv", "-c:v", "libx264", "-pix_fmt", "yuv420p",
+  "-color_primaries", "bt709", "-color_trc", "bt709", "-colorspace", "bt709", "-crf", "16", "-preset", "slow", "-movflags", "+faststart", out],
   { stdio: ["pipe", "inherit", "inherit"] });
 
 const total = DURATION * fps;
