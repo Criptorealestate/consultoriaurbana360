@@ -3,20 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>N5 Realty 4 Pasos</title>
+<title>Nivel 5 Cuatro Pasos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
    COLORES: --blue = fondo (el azul del reel anterior)
-            --accent = color de las palabras clave
-   Reemplaza --accent por el color oficial de N5 Realty.
+   Colores oficiales tomados del logo Nivel 5 Realty Group:
+     --pink (magenta) = palabras clave de títulos y botones
+     --cyan (azul claro) = palabras clave en textos de detalle
+     --royal (azul rey) = franja izquierda del logo
    ============================================================ */
 :root{
   --blue:#1238D6;
   --blue-deep:#0B27A3;
-  --accent:#FFC93C;
+  --pink:#FF1F7A;
+  --cyan:#3DC0FF;
+  --royal:#0A47F0;
+  --night:#050A1F;
+  --accent:var(--pink);
   --white:#ffffff;
   --w80:rgba(255,255,255,.8);
   --w60:rgba(255,255,255,.6);
@@ -38,10 +44,10 @@ em{font-style:normal;color:var(--accent)}
 /* Barra superior: logo + progreso */
 #top{position:absolute;left:70px;right:70px;top:80px;height:110px;display:flex;align-items:center;justify-content:space-between}
 .logo{display:flex;align-items:center;gap:20px}
-.logo img{height:96px;width:auto;display:block}
-.logo .badge{width:96px;height:96px;border-radius:24px;background:var(--white);color:var(--blue);display:flex;align-items:center;justify-content:center;font:900 52px/1 "Montserrat";letter-spacing:-.02em}
-.logo .word{font:800 44px/1 "Montserrat";letter-spacing:.14em}
-.logo .word small{display:block;font:600 20px/1 "Inter";letter-spacing:.3em;opacity:.7;margin-top:8px}
+.logo{background:var(--night);border-radius:28px;padding:14px 30px 14px 18px;box-shadow:0 0 40px rgba(255,31,122,.25),0 0 60px rgba(10,71,240,.35)}
+.logo .mt{width:110px;height:82px;display:block;filter:drop-shadow(0 0 10px rgba(61,192,255,.55))}
+.logo .word{font:800 40px/1 "Montserrat";letter-spacing:.12em}
+.logo .word small{display:block;font:600 17px/1 "Montserrat";letter-spacing:.42em;color:var(--cyan);margin-top:10px}
 #prog{display:flex;flex-direction:column;align-items:flex-end;gap:14px}
 #prog .lbl{font:700 24px "Inter";letter-spacing:.2em;opacity:.85}
 #prog .bars{display:flex;gap:10px}
@@ -66,10 +72,10 @@ em{font-style:normal;color:var(--accent)}
 .step .art{position:absolute;left:70px;right:70px;top:930px;height:540px}
 .step .art svg.full{width:100%;height:100%;overflow:visible}
 .step .detail{position:absolute;left:70px;right:70px;top:1500px;background:var(--w12);border:2px solid var(--w25);border-radius:36px;padding:42px 46px;font:500 38px/1.38 "Inter";color:var(--white)}
-.step .detail b{font-weight:700;color:var(--accent)}
+.step .detail b{font-weight:700;color:var(--cyan)}
 .step .detail .row{display:flex;gap:22px;align-items:flex-start}
 .step .detail .row+.row{margin-top:18px}
-.step .detail .dot{flex:none;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--blue);display:flex;align-items:center;justify-content:center;font:900 26px "Montserrat";margin-top:4px}
+.step .detail .dot{flex:none;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--white);display:flex;align-items:center;justify-content:center;font:900 26px "Montserrat";margin-top:4px}
 
 /* SVG trazos */
 .ln-w{fill:none;stroke:var(--white);stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
@@ -80,7 +86,7 @@ em{font-style:normal;color:var(--accent)}
 /* Chips paso 2 */
 .chips{position:absolute;left:0;right:0;top:0;display:flex;flex-direction:column;gap:26px}
 .chip{display:flex;align-items:center;gap:30px;background:var(--white);color:var(--blue);border-radius:30px;padding:30px 40px;box-shadow:0 24px 50px rgba(0,0,0,.18)}
-.chip .k{flex:none;width:86px;height:86px;border-radius:22px;background:var(--blue);color:var(--accent);display:flex;align-items:center;justify-content:center;font:900 48px "Montserrat"}
+.chip .k{flex:none;width:86px;height:86px;border-radius:22px;background:var(--pink);color:var(--white);display:flex;align-items:center;justify-content:center;font:900 48px "Montserrat"}
 .chip .t{font:800 50px "Montserrat";text-transform:uppercase}
 .chip .s{font:500 28px "Inter";opacity:.75;margin-top:4px}
 .chip .lock{margin-left:auto;width:58px;height:58px}
@@ -97,7 +103,7 @@ em{font-style:normal;color:var(--accent)}
 .prop .l2{height:22px;border-radius:11px;background:#DCE3FF;margin-top:16px;width:55%}
 .prop .ok{position:absolute;right:-24px;top:-24px;width:84px;height:84px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px rgba(0,0,0,.2)}
 .prop .ok svg{width:48px;height:48px}
-.prop .ok path{fill:none;stroke:var(--blue);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
+.prop .ok path{fill:none;stroke:var(--white);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
 .prop .ideal{position:absolute;left:0;right:0;bottom:-74px;text-align:center;font:900 40px "Montserrat";letter-spacing:.2em;color:var(--accent)}
 .mag{position:absolute;left:0;top:120px;width:220px;height:220px}
 .mag path,.mag circle{fill:none;stroke:var(--accent);stroke-width:8;stroke-linecap:round}
@@ -111,21 +117,18 @@ em{font-style:normal;color:var(--accent)}
 .check{display:flex;align-items:center;gap:22px;font:700 36px "Montserrat";text-transform:uppercase;letter-spacing:.02em}
 .check .c{flex:none;width:64px;height:64px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center}
 .check .c svg{width:36px;height:36px}
-.check .c path{fill:none;stroke:var(--blue);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
+.check .c path{fill:none;stroke:var(--white);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
 
 /* Outro */
-#outro .bigLogo{position:absolute;left:0;right:0;top:300px;display:flex;justify-content:center}
-#outro .bigLogo .logo img{height:180px}
-#outro .bigLogo .badge{width:170px;height:170px;border-radius:42px;font-size:92px}
-#outro .bigLogo .word{font-size:76px}
-#outro .bigLogo .word small{font-size:28px}
-#outro .h{position:absolute;left:70px;right:70px;top:620px;text-align:center;font:900 80px/1.08 "Montserrat";text-transform:uppercase}
-#outro .recap{position:absolute;left:110px;right:110px;top:900px;display:flex;flex-direction:column;gap:22px}
+#outro .bigLogo{position:absolute;left:270px;top:230px;width:540px;height:440px;border-radius:48px;background:var(--night);box-shadow:0 0 80px rgba(255,31,122,.35),0 0 120px rgba(10,71,240,.5);display:flex;align-items:center;justify-content:center}
+#outro .bigLogo svg{width:470px;height:auto;overflow:visible}
+#outro .h{position:absolute;left:70px;right:70px;top:740px;text-align:center;font:900 80px/1.08 "Montserrat";text-transform:uppercase}
+#outro .recap{position:absolute;left:110px;right:110px;top:960px;display:flex;flex-direction:column;gap:22px}
 #outro .rc{display:flex;align-items:center;gap:28px;background:var(--w12);border:2px solid var(--w25);border-radius:26px;padding:24px 32px;font:700 38px "Montserrat"}
-#outro .rc .n{flex:none;font:900 46px "Montserrat";color:var(--accent);width:70px}
-#outro .cta{position:absolute;left:0;right:0;top:1560px;text-align:center}
-#outro .cta span{display:inline-block;background:var(--accent);color:var(--blue);border-radius:999px;padding:34px 60px;font:800 44px "Montserrat";text-transform:uppercase;letter-spacing:.02em;box-shadow:0 20px 50px rgba(0,0,0,.25)}
-#outro .contact{position:absolute;left:0;right:0;top:1740px;text-align:center;font:600 34px "Inter";color:var(--w80)}
+#outro .rc .n{flex:none;font:900 46px "Montserrat";color:var(--cyan);width:70px}
+#outro .cta{position:absolute;left:0;right:0;top:1590px;text-align:center}
+#outro .cta span{display:inline-block;background:var(--accent);color:var(--white);border-radius:999px;padding:34px 60px;font:800 44px "Montserrat";text-transform:uppercase;letter-spacing:.02em;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+#outro .contact{position:absolute;left:0;right:0;top:1770px;text-align:center;font:600 34px "Inter";color:var(--w80)}
 
 /* UI */
 #ui{position:fixed;right:20px;bottom:20px;display:flex;gap:10px;z-index:10}
@@ -152,7 +155,7 @@ body.export #ui,body.export #time{display:none}
     <div class="kicker">GUÍA PARA INVERSIONISTAS</div>
     <div class="h"><span>Cómo comprar tu</span><span><em>propiedad de inversión</em></span></div>
     <div class="four"><span class="n">4</span><span class="t">PASOS</span></div>
-    <div class="with">con un agente <b>N5 Realty</b></div>
+    <div class="with">con un agente de <b>Nivel 5 Realty Group</b></div>
   </section>
 
   <!-- PASO 1 -->
@@ -169,13 +172,13 @@ body.export #ui,body.export #time{display:none}
         <path class="ln-w" pathLength="1" d="M648 330c16-56 54-84 92-84s76 28 92 84"/>
         <path class="ln-w" pathLength="1" d="M740 250l-16 30 16 38 16-38z"/>
         <path class="ln-a" pathLength="1" d="M345 230H590" stroke-dasharray="0.04 0.03"/>
-        <g id="p1badge"><circle class="f-a" cx="850" cy="110" r="44"/><path d="M830 110l14 14 26-28" fill="none" stroke="var(--blue)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></g>
+        <g id="p1badge"><circle class="f-a" cx="850" cy="110" r="44"/><path d="M830 110l14 14 26-28" fill="none" stroke="var(--white)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></g>
         <text class="svgtxt" x="200" y="420" font-size="34" text-anchor="middle">TÚ</text>
         <text class="svgtxt" x="740" y="440" font-size="34" text-anchor="middle" style="fill:var(--accent)">TU AGENTE</text>
       </svg>
     </div>
     <div class="detail">
-      <div class="row"><span class="dot">✓</span><span>Tu agente <b>N5 Realty</b> defiende <b>tus intereses</b> como comprador durante toda la operación.</span></div>
+      <div class="row"><span class="dot">✓</span><span>Tu agente de <b>Nivel 5</b> defiende <b>tus intereses</b> como comprador durante toda la operación.</span></div>
       <div class="row"><span class="dot">✓</span><span>Conoce el mercado y te <b>acompaña de principio a fin</b>.</span></div>
     </div>
   </section>
@@ -227,7 +230,7 @@ body.export #ui,body.export #time{display:none}
         <path class="ln-w" pathLength="1" d="M110 260H330"/>
         <path class="ln-w" pathLength="1" d="M110 320H280"/>
         <path class="ln-w" pathLength="1" d="M110 380H310"/>
-        <g id="shield"><path d="M300 400l90 34v70c0 60-40 96-90 116-50-20-90-56-90-116v-70z" fill="var(--accent)"/><path d="M262 506l26 26 52-56" fill="none" stroke="var(--blue)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/></g>
+        <g id="shield"><path d="M300 400l90 34v70c0 60-40 96-90 116-50-20-90-56-90-116v-70z" fill="var(--accent)"/><path d="M262 506l26 26 52-56" fill="none" stroke="var(--white)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/></g>
       </svg>
       <div class="checks">
         <div class="check"><span class="c"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>Despachos legales</div>
@@ -252,7 +255,7 @@ body.export #ui,body.export #time{display:none}
         <path d="M290 410H650" stroke="var(--blue)" stroke-width="3" opacity=".4"/>
         <path id="sig" pathLength="1" d="M300 390c20-60 40-70 46-40s-12 46 2 40 30-60 46-52-4 50 12 46 26-34 40-30 6 26 22 22 30-20 50-18 40 6 70 2" fill="none" stroke="var(--blue)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
         <g id="pen"><path d="M0 0l-18 -60 40 -14 18 60z" fill="var(--accent)"/><path d="M0 0l22 -14" stroke="var(--blue)" stroke-width="4"/><path d="M0 0l4 12" stroke="var(--accent)" stroke-width="6" stroke-linecap="round"/></g>
-        <g id="started"><circle cx="700" cy="40" r="56" fill="var(--accent)"/><path d="M672 40l20 20 36-38" fill="none" stroke="var(--blue)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></g>
+        <g id="started"><circle cx="700" cy="40" r="56" fill="var(--accent)"/><path d="M672 40l20 20 36-38" fill="none" stroke="var(--white)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></g>
       </svg>
     </div>
     <div class="detail" style="top:1540px">
@@ -262,7 +265,7 @@ body.export #ui,body.export #time{display:none}
 
   <!-- CIERRE -->
   <section class="scene" id="outro">
-    <div class="bigLogo"><div class="logo" id="bigLogo"></div></div>
+    <div class="bigLogo" id="bigLogo"></div>
     <div class="h">Invierte con <em>seguridad</em></div>
     <div class="recap">
       <div class="rc"><span class="n">01</span>Elige a tu agente</div>
@@ -283,10 +286,6 @@ body.export #ui,body.export #time{display:none}
    DATOS EDITABLES
    ============================================================ */
 const CONFIG = {
-  // Logo oficial: guarda el archivo junto a este HTML con este nombre
-  // (PNG o SVG con fondo transparente, versión blanca/clara para fondo azul).
-  logoSrc: "n5-logo.png",
-  brand: "N5", brandSub: "REALTY",   // respaldo si no se encuentra el logo
   contact: "",                        // ej. "www.tusitio.com · WhatsApp +52 ..."
 };
 const DURATION = 38;
@@ -304,20 +303,19 @@ const eBack = (x, s = 1.8) => x <= 0 ? 0 : x >= 1 ? 1 : 1 + (s + 1) * Math.pow(x
 const set = (el, o, tr) => { el.style.opacity = o; if (tr !== undefined) el.style.transform = tr; };
 const rise = (el, p, d = 50) => set(el, p, `translateY(${(1 - eOut(p)) * d}px)`);
 
-/* ---------- logo (oficial o respaldo) ---------- */
-let LOGO_OK = false;
-function fallbackLogo() { return `<div class="badge">${CONFIG.brand}</div><div class="word">${CONFIG.brand}<small>${CONFIG.brandSub}</small></div>`; }
-function loadLogo() {
-  return new Promise(res => {
-    const img = new Image();
-    img.onload = () => { LOGO_OK = true; res(); };
-    img.onerror = () => res();
-    img.src = CONFIG.logoSrc;
-  }).then(() => {
-    const html = LOGO_OK ? `<img src="${CONFIG.logoSrc}" alt="N5 Realty">` : fallbackLogo();
-    $("#topLogo").innerHTML = html; $("#bigLogo").innerHTML = html;
-  });
-}
+/* ---------- logo Nivel 5 Realty Group (vector, colores oficiales) ---------- */
+const MOUNTAIN = `
+  <polygon points="300,618 768,28 830,105 418,618" fill="var(--royal)"/>
+  <polygon points="480,618 855,145 910,215 595,618" fill="#0A8CFF"/>
+  <polygon points="790,465 850,395 1025,618 905,618" fill="#E6035F"/>
+  <polygon points="885,345 945,268 1225,618 1085,618" fill="var(--pink)"/>`;
+const mountainSVG = () => `<svg class="mt" viewBox="290 20 945 605">${MOUNTAIN}</svg>`;
+const fullLogoSVG = () => `<svg viewBox="150 0 1240 1000">${MOUNTAIN}
+  <text x="770" y="845" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="190" letter-spacing="34" fill="#fff">NIVEL 5</text>
+  <text x="780" y="935" text-anchor="middle" font-family="Montserrat" font-weight="600" font-size="58" letter-spacing="52" fill="var(--cyan)">REALTY GROUP</text>
+  <rect x="325" y="968" width="890" height="6" rx="3" fill="var(--cyan)" opacity=".8"/></svg>`;
+$("#topLogo").innerHTML = mountainSVG() + `<div class="word">NIVEL 5<small>REALTY GROUP</small></div>`;
+$("#bigLogo").innerHTML = fullLogoSVG();
 $("#contact").textContent = CONFIG.contact;
 
 /* ---------- línea de tiempo ---------- */
@@ -482,7 +480,7 @@ addEventListener("keydown", e => { if (e.key === "r" || e.key === "R") restart()
 addEventListener("resize", fit);
 window.renderAt = render;
 
-Promise.all([document.fonts.ready, loadLogo()]).then(() => {
+document.fonts.ready.then(() => {
   fit(); render(0);
   if (EXPORT) { document.body.classList.add("export"); window.__ready = true; }
   else { restart(); requestAnimationFrame(loop); }
