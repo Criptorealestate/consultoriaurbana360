@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>N5 Realty 4 Pasos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   COLORES: --blue = fondo (el azul del reel anterior)
+            --accent = color de las palabras clave
+   Reemplaza --accent por el color oficial de N5 Realty.
+   ============================================================ */
+:root{
+  --blue:#1238D6;
+  --blue-deep:#0B27A3;
+  --accent:#FFC93C;
+  --white:#ffffff;
+  --w80:rgba(255,255,255,.8);
+  --w60:rgba(255,255,255,.6);
+  --w25:rgba(255,255,255,.25);
+  --w12:rgba(255,255,255,.12);
+  --w08:rgba(255,255,255,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#0b0b0f;overflow:hidden}
+body{font-family:"Inter",system-ui,sans-serif}
+#stage{position:absolute;left:50%;top:50%;width:1080px;height:1920px;overflow:hidden;color:var(--white);
+  background:radial-gradient(120% 70% at 50% 0%,#1d47ee 0%,var(--blue) 45%,var(--blue-deep) 100%);transform-origin:0 0}
+#grid{position:absolute;inset:0;background-image:linear-gradient(var(--w08) 2px,transparent 2px),linear-gradient(90deg,var(--w08) 2px,transparent 2px);background-size:120px 120px;opacity:.55}
+.scene{position:absolute;inset:0;visibility:hidden}
+.mont{font-family:"Montserrat",sans-serif}
+em{font-style:normal;color:var(--accent)}
+.up{text-transform:uppercase}
+
+/* Barra superior: logo + progreso */
+#top{position:absolute;left:70px;right:70px;top:80px;height:110px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:20px}
+.logo img{height:96px;width:auto;display:block}
+.logo .badge{width:96px;height:96px;border-radius:24px;background:var(--white);color:var(--blue);display:flex;align-items:center;justify-content:center;font:900 52px/1 "Montserrat";letter-spacing:-.02em}
+.logo .word{font:800 44px/1 "Montserrat";letter-spacing:.14em}
+.logo .word small{display:block;font:600 20px/1 "Inter";letter-spacing:.3em;opacity:.7;margin-top:8px}
+#prog{display:flex;flex-direction:column;align-items:flex-end;gap:14px}
+#prog .lbl{font:700 24px "Inter";letter-spacing:.2em;opacity:.85}
+#prog .bars{display:flex;gap:10px}
+#prog .bar{width:70px;height:10px;border-radius:5px;background:var(--w25);overflow:hidden}
+#prog .bar i{display:block;height:100%;width:0;background:var(--accent)}
+
+/* Intro */
+#intro .kicker{position:absolute;left:0;right:0;top:470px;text-align:center;font:600 34px "Inter";letter-spacing:.32em;color:var(--w80)}
+#intro .h{position:absolute;left:70px;right:70px;top:560px;text-align:center;font:900 118px/1.02 "Montserrat";text-transform:uppercase;letter-spacing:-.01em}
+#intro .h span{display:block}
+#intro .four{position:absolute;left:0;right:0;top:1150px;text-align:center}
+#intro .four .n{display:inline-block;font:900 360px/1 "Montserrat";color:var(--accent)}
+#intro .four .t{display:block;font:800 64px "Montserrat";letter-spacing:.25em;margin-top:-10px}
+#intro .with{position:absolute;left:0;right:0;top:1640px;text-align:center;font:500 40px "Inter";color:var(--w80)}
+
+/* Paso genérico */
+.step .num{position:absolute;left:62px;top:300px;font:900 230px/1 "Montserrat";color:var(--accent);letter-spacing:-.03em}
+.step .tag{position:absolute;left:70px;top:255px;font:700 30px "Inter";letter-spacing:.3em;color:var(--accent)}
+.step .title{position:absolute;left:70px;right:70px;top:600px;font:900 92px/1.04 "Montserrat";text-transform:uppercase;letter-spacing:-.01em}
+.step .title .ln{display:block;overflow:hidden}
+.step .title .ln>span{display:inline-block}
+.step .art{position:absolute;left:70px;right:70px;top:930px;height:540px}
+.step .art svg.full{width:100%;height:100%;overflow:visible}
+.step .detail{position:absolute;left:70px;right:70px;top:1500px;background:var(--w12);border:2px solid var(--w25);border-radius:36px;padding:42px 46px;font:500 38px/1.38 "Inter";color:var(--white)}
+.step .detail b{font-weight:700;color:var(--accent)}
+.step .detail .row{display:flex;gap:22px;align-items:flex-start}
+.step .detail .row+.row{margin-top:18px}
+.step .detail .dot{flex:none;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--blue);display:flex;align-items:center;justify-content:center;font:900 26px "Montserrat";margin-top:4px}
+
+/* SVG trazos */
+.ln-w{fill:none;stroke:var(--white);stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+.ln-a{fill:none;stroke:var(--accent);stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+.f-a{fill:var(--accent)}
+.svgtxt{font-family:"Montserrat";font-weight:800;fill:var(--white);letter-spacing:.12em}
+
+/* Chips paso 2 */
+.chips{position:absolute;left:0;right:0;top:0;display:flex;flex-direction:column;gap:26px}
+.chip{display:flex;align-items:center;gap:30px;background:var(--white);color:var(--blue);border-radius:30px;padding:30px 40px;box-shadow:0 24px 50px rgba(0,0,0,.18)}
+.chip .k{flex:none;width:86px;height:86px;border-radius:22px;background:var(--blue);color:var(--accent);display:flex;align-items:center;justify-content:center;font:900 48px "Montserrat"}
+.chip .t{font:800 50px "Montserrat";text-transform:uppercase}
+.chip .s{font:500 28px "Inter";opacity:.75;margin-top:4px}
+.chip .lock{margin-left:auto;width:58px;height:58px}
+.chip .lock path,.chip .lock rect{fill:none;stroke:var(--blue);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.example{position:absolute;right:0;top:-56px;font:600 26px "Inter";letter-spacing:.2em;color:var(--w60)}
+
+/* Paso 3: tarjetas de propiedades */
+.props{position:absolute;left:0;right:0;top:40px;display:flex;justify-content:space-between}
+.prop{width:290px;height:400px;border-radius:30px;background:var(--white);color:var(--blue);padding:26px;display:flex;flex-direction:column;position:relative;box-shadow:0 24px 50px rgba(0,0,0,.18)}
+.prop .img{height:190px;border-radius:20px;background:#E8EDFF;display:flex;align-items:center;justify-content:center}
+.prop .img svg{width:120px;height:120px}
+.prop .img path{fill:none;stroke:var(--blue);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.prop .l1{height:22px;border-radius:11px;background:#DCE3FF;margin-top:26px;width:80%}
+.prop .l2{height:22px;border-radius:11px;background:#DCE3FF;margin-top:16px;width:55%}
+.prop .ok{position:absolute;right:-24px;top:-24px;width:84px;height:84px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px rgba(0,0,0,.2)}
+.prop .ok svg{width:48px;height:48px}
+.prop .ok path{fill:none;stroke:var(--blue);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
+.prop .ideal{position:absolute;left:0;right:0;bottom:-74px;text-align:center;font:900 40px "Montserrat";letter-spacing:.2em;color:var(--accent)}
+.mag{position:absolute;left:0;top:120px;width:220px;height:220px}
+.mag path,.mag circle{fill:none;stroke:var(--accent);stroke-width:8;stroke-linecap:round}
+
+/* Legal */
+#legal .title{top:290px}
+#legal .art{top:760px;height:640px}
+#legal .seal{position:absolute;left:0;right:0;top:0;text-align:center}
+#legal .detail{top:1440px}
+.checks{position:absolute;right:0;top:110px;display:flex;flex-direction:column;gap:30px;width:470px}
+.check{display:flex;align-items:center;gap:22px;font:700 36px "Montserrat";text-transform:uppercase;letter-spacing:.02em}
+.check .c{flex:none;width:64px;height:64px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center}
+.check .c svg{width:36px;height:36px}
+.check .c path{fill:none;stroke:var(--blue);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
+
+/* Outro */
+#outro .bigLogo{position:absolute;left:0;right:0;top:300px;display:flex;justify-content:center}
+#outro .bigLogo .logo img{height:180px}
+#outro .bigLogo .badge{width:170px;height:170px;border-radius:42px;font-size:92px}
+#outro .bigLogo .word{font-size:76px}
+#outro .bigLogo .word small{font-size:28px}
+#outro .h{position:absolute;left:70px;right:70px;top:620px;text-align:center;font:900 80px/1.08 "Montserrat";text-transform:uppercase}
+#outro .recap{position:absolute;left:110px;right:110px;top:900px;display:flex;flex-direction:column;gap:22px}
+#outro .rc{display:flex;align-items:center;gap:28px;background:var(--w12);border:2px solid var(--w25);border-radius:26px;padding:24px 32px;font:700 38px "Montserrat"}
+#outro .rc .n{flex:none;font:900 46px "Montserrat";color:var(--accent);width:70px}
+#outro .cta{position:absolute;left:0;right:0;top:1560px;text-align:center}
+#outro .cta span{display:inline-block;background:var(--accent);color:var(--blue);border-radius:999px;padding:34px 60px;font:800 44px "Montserrat";text-transform:uppercase;letter-spacing:.02em;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+#outro .contact{position:absolute;left:0;right:0;top:1740px;text-align:center;font:600 34px "Inter";color:var(--w80)}
+
+/* UI */
+#ui{position:fixed;right:20px;bottom:20px;display:flex;gap:10px;z-index:10}
+#ui button{font:600 15px "Inter",sans-serif;background:#fff;color:#111;border:0;border-radius:999px;padding:12px 20px;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.3)}
+#time{position:fixed;left:20px;bottom:24px;color:#aaa;font:500 13px "Inter",sans-serif;z-index:10}
+body.export #ui,body.export #time{display:none}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="grid"></div>
+
+  <!-- Barra superior: logo + progreso de pasos -->
+  <div id="top">
+    <div class="logo" id="topLogo"></div>
+    <div id="prog">
+      <div class="lbl" id="progLbl">PASO 1 DE 4</div>
+      <div class="bars"><div class="bar"><i></i></div><div class="bar"><i></i></div><div class="bar"><i></i></div><div class="bar"><i></i></div></div>
+    </div>
+  </div>
+
+  <!-- INTRO -->
+  <section class="scene" id="intro">
+    <div class="kicker">GUÍA PARA INVERSIONISTAS</div>
+    <div class="h"><span>Cómo comprar tu</span><span><em>propiedad de inversión</em></span></div>
+    <div class="four"><span class="n">4</span><span class="t">PASOS</span></div>
+    <div class="with">con un agente <b>N5 Realty</b></div>
+  </section>
+
+  <!-- PASO 1 -->
+  <section class="scene step" id="p1">
+    <div class="num">01</div><div class="tag">PASO 1</div>
+    <div class="title"><span class="ln"><span>Elige un <em>agente</em></span></span><span class="ln"><span>que te <em>represente</em></span></span></div>
+    <div class="art">
+      <svg class="full" viewBox="0 0 940 540">
+        <circle class="ln-w" pathLength="1" cx="200" cy="230" r="130"/>
+        <circle class="ln-w" pathLength="1" cx="200" cy="190" r="44"/>
+        <path class="ln-w" pathLength="1" d="M122 315c14-48 46-72 78-72s64 24 78 72"/>
+        <circle class="ln-a" pathLength="1" cx="740" cy="230" r="150"/>
+        <circle class="ln-w" pathLength="1" cx="740" cy="182" r="52"/>
+        <path class="ln-w" pathLength="1" d="M648 330c16-56 54-84 92-84s76 28 92 84"/>
+        <path class="ln-w" pathLength="1" d="M740 250l-16 30 16 38 16-38z"/>
+        <path class="ln-a" pathLength="1" d="M345 230H590" stroke-dasharray="0.04 0.03"/>
+        <g id="p1badge"><circle class="f-a" cx="850" cy="110" r="44"/><path d="M830 110l14 14 26-28" fill="none" stroke="var(--blue)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></g>
+        <text class="svgtxt" x="200" y="420" font-size="34" text-anchor="middle">TÚ</text>
+        <text class="svgtxt" x="740" y="440" font-size="34" text-anchor="middle" style="fill:var(--accent)">TU AGENTE</text>
+      </svg>
+    </div>
+    <div class="detail">
+      <div class="row"><span class="dot">✓</span><span>Tu agente <b>N5 Realty</b> defiende <b>tus intereses</b> como comprador durante toda la operación.</span></div>
+      <div class="row"><span class="dot">✓</span><span>Conoce el mercado y te <b>acompaña de principio a fin</b>.</span></div>
+    </div>
+  </section>
+
+  <!-- PASO 2 -->
+  <section class="scene step" id="p2">
+    <div class="num">02</div><div class="tag">PASO 2</div>
+    <div class="title"><span class="ln"><span>Comparte tus</span></span><span class="ln"><span><em>3 no negociables</em></span></span></div>
+    <div class="art">
+      <div class="example">EJEMPLO</div>
+      <div class="chips">
+        <div class="chip"><div class="k">1</div><div><div class="t">Ubicación</div><div class="s">Zona, ciudad o cercanía que buscas</div></div><svg class="lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg></div>
+        <div class="chip"><div class="k">2</div><div><div class="t">Presupuesto</div><div class="s">Cuánto quieres invertir como máximo</div></div><svg class="lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg></div>
+        <div class="chip"><div class="k">3</div><div><div class="t">Objetivo</div><div class="s">Renta, plusvalía o uso propio</div></div><svg class="lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg></div>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="row"><span class="dot">✓</span><span>Dile a tu agente las <b>3 cosas que tu propiedad debe tener sí o sí</b>.</span></div>
+      <div class="row"><span class="dot">✓</span><span>Así <b>no pierdes tiempo</b> viendo opciones que no son para ti.</span></div>
+    </div>
+  </section>
+
+  <!-- PASO 3 -->
+  <section class="scene step" id="p3">
+    <div class="num">03</div><div class="tag">PASO 3</div>
+    <div class="title" style="font-size:80px"><span class="ln"><span><em>Confía</em> en tu agente</span></span><span class="ln"><span>para encontrar la</span></span><span class="ln"><span>propiedad <em>ideal</em></span></span></div>
+    <div class="art" style="top:1010px;height:470px">
+      <div class="props">
+        <div class="prop"><div class="img"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg></div><div class="l1"></div><div class="l2"></div></div>
+        <div class="prop" id="idealProp"><div class="img"><svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 11h2M13 11h2M9 15h2M13 15h2"/></svg></div><div class="l1"></div><div class="l2"></div>
+          <div class="ok"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><div class="ideal">IDEAL</div></div>
+        <div class="prop"><div class="img"><svg viewBox="0 0 24 24"><path d="M2 21h20"/><path d="M4 21V12h6v9M10 21V6h10v15"/><path d="M13 9h1M16 9h1M13 13h1M16 13h1M13 17h1M16 17h1"/></svg></div><div class="l1"></div><div class="l2"></div></div>
+      </div>
+      <svg class="mag" id="mag" viewBox="0 0 100 100"><circle cx="42" cy="42" r="28"/><path d="M63 63l26 26"/></svg>
+    </div>
+    <div class="detail" style="top:1580px">
+      <div class="row"><span class="dot">✓</span><span>Busca, filtra y compara por ti: solo te presenta lo que <b>cumple tus 3 no negociables</b>.</span></div>
+    </div>
+  </section>
+
+  <!-- RESPALDO LEGAL -->
+  <section class="scene step" id="legal">
+    <div class="title" style="font-size:84px"><span class="ln"><span>Cada propiedad</span></span><span class="ln"><span>se <em>analiza</em></span></span><span class="ln"><span><em>a detalle</em></span></span></div>
+    <div class="art">
+      <svg viewBox="0 0 440 640" style="position:absolute;left:0;top:0;width:440px;height:640px;overflow:visible">
+        <path class="ln-w" pathLength="1" d="M60 40H300L380 120V600H60Z"/>
+        <path class="ln-w" pathLength="1" d="M300 40V120H380"/>
+        <path class="ln-w" pathLength="1" d="M110 200H330"/>
+        <path class="ln-w" pathLength="1" d="M110 260H330"/>
+        <path class="ln-w" pathLength="1" d="M110 320H280"/>
+        <path class="ln-w" pathLength="1" d="M110 380H310"/>
+        <g id="shield"><path d="M300 400l90 34v70c0 60-40 96-90 116-50-20-90-56-90-116v-70z" fill="var(--accent)"/><path d="M262 506l26 26 52-56" fill="none" stroke="var(--blue)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/></g>
+      </svg>
+      <div class="checks">
+        <div class="check"><span class="c"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>Despachos legales</div>
+        <div class="check"><span class="c"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>Especializados</div>
+        <div class="check"><span class="c"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>En temas inmobiliarios</div>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="row"><span class="dot">✓</span><span><b>Todas las propiedades</b> se analizan a detalle con <b>despachos legales especializados en temas inmobiliarios</b>, para que inviertas con <b>seguridad jurídica</b>.</span></div>
+    </div>
+  </section>
+
+  <!-- PASO 4 -->
+  <section class="scene step" id="p4">
+    <div class="num">04</div><div class="tag">PASO 4</div>
+    <div class="title"><span class="ln"><span><em>Firma el contrato</em></span></span><span class="ln"><span>para iniciar</span></span><span class="ln"><span>el proceso</span></span></div>
+    <div class="art" style="top:1040px;height:450px">
+      <svg class="full" viewBox="0 0 940 470">
+        <rect x="230" y="0" width="480" height="460" rx="30" fill="#fff"/>
+        <path d="M290 70H560M290 120H650M290 170H620M290 220H520" stroke="#DCE3FF" stroke-width="18" stroke-linecap="round"/>
+        <text x="290" y="300" font-family="Montserrat" font-weight="800" font-size="24" letter-spacing="3" fill="var(--blue)">CONTRATO</text>
+        <path d="M290 410H650" stroke="var(--blue)" stroke-width="3" opacity=".4"/>
+        <path id="sig" pathLength="1" d="M300 390c20-60 40-70 46-40s-12 46 2 40 30-60 46-52-4 50 12 46 26-34 40-30 6 26 22 22 30-20 50-18 40 6 70 2" fill="none" stroke="var(--blue)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+        <g id="pen"><path d="M0 0l-18 -60 40 -14 18 60z" fill="var(--accent)"/><path d="M0 0l22 -14" stroke="var(--blue)" stroke-width="4"/><path d="M0 0l4 12" stroke="var(--accent)" stroke-width="6" stroke-linecap="round"/></g>
+        <g id="started"><circle cx="700" cy="40" r="56" fill="var(--accent)"/><path d="M672 40l20 20 36-38" fill="none" stroke="var(--blue)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></g>
+      </svg>
+    </div>
+    <div class="detail" style="top:1540px">
+      <div class="row"><span class="dot">✓</span><span>Con la firma <b>formalizas</b> el trabajo con tu agente y <b>arranca el proceso</b> de compra, con todo <b>por escrito</b>.</span></div>
+    </div>
+  </section>
+
+  <!-- CIERRE -->
+  <section class="scene" id="outro">
+    <div class="bigLogo"><div class="logo" id="bigLogo"></div></div>
+    <div class="h">Invierte con <em>seguridad</em></div>
+    <div class="recap">
+      <div class="rc"><span class="n">01</span>Elige a tu agente</div>
+      <div class="rc"><span class="n">02</span>Tus 3 no negociables</div>
+      <div class="rc"><span class="n">03</span>Confía en su búsqueda</div>
+      <div class="rc"><span class="n">04</span>Firma e inicia</div>
+    </div>
+    <div class="cta"><span>Habla hoy con un agente</span></div>
+    <div class="contact" id="contact"></div>
+  </section>
+</div>
+
+<div id="time"></div>
+<div id="ui"><button id="restart" type="button">↻ Reiniciar</button></div>
+
+<script>
+/* ============================================================
+   DATOS EDITABLES
+   ============================================================ */
+const CONFIG = {
+  // Logo oficial: guarda el archivo junto a este HTML con este nombre
+  // (PNG o SVG con fondo transparente, versión blanca/clara para fondo azul).
+  logoSrc: "n5-logo.png",
+  brand: "N5", brandSub: "REALTY",   // respaldo si no se encuentra el logo
+  contact: "",                        // ej. "www.tusitio.com · WhatsApp +52 ..."
+};
+const DURATION = 38;
+window.DURATION = DURATION;
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const P = (t, a, b) => clamp((t - a) / (b - a));
+const eOut = x => 1 - Math.pow(1 - x, 3);
+const eIn = x => x * x * x;
+const eIO = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const eBack = (x, s = 1.8) => x <= 0 ? 0 : x >= 1 ? 1 : 1 + (s + 1) * Math.pow(x - 1, 3) + s * Math.pow(x - 1, 2);
+const set = (el, o, tr) => { el.style.opacity = o; if (tr !== undefined) el.style.transform = tr; };
+const rise = (el, p, d = 50) => set(el, p, `translateY(${(1 - eOut(p)) * d}px)`);
+
+/* ---------- logo (oficial o respaldo) ---------- */
+let LOGO_OK = false;
+function fallbackLogo() { return `<div class="badge">${CONFIG.brand}</div><div class="word">${CONFIG.brand}<small>${CONFIG.brandSub}</small></div>`; }
+function loadLogo() {
+  return new Promise(res => {
+    const img = new Image();
+    img.onload = () => { LOGO_OK = true; res(); };
+    img.onerror = () => res();
+    img.src = CONFIG.logoSrc;
+  }).then(() => {
+    const html = LOGO_OK ? `<img src="${CONFIG.logoSrc}" alt="N5 Realty">` : fallbackLogo();
+    $("#topLogo").innerHTML = html; $("#bigLogo").innerHTML = html;
+  });
+}
+$("#contact").textContent = CONFIG.contact;
+
+/* ---------- línea de tiempo ---------- */
+const SC = [
+  {id: "intro", a: 0,  b: 4.2},
+  {id: "p1",    a: 4,  b: 10.2, step: 1},
+  {id: "p2",    a: 10, b: 16.2, step: 2},
+  {id: "p3",    a: 16, b: 22.2, step: 3},
+  {id: "legal", a: 22, b: 27.2, step: 3},
+  {id: "p4",    a: 27, b: 33.2, step: 4},
+  {id: "outro", a: 33, b: DURATION + 1},
+].map(s => ({...s, el: document.getElementById(s.id)}));
+
+// entrada/salida estándar de un paso: título por líneas, número, arte y detalle
+function stepFrame(s, t) {
+  const {el, a, b} = s;
+  const out = eIn(P(t, b - .45, b - .05));
+  el.style.transform = `translateX(${-out * 160}px)`;
+  el.style.opacity = 1 - out;
+  const num = el.querySelector(".num"), tag = el.querySelector(".tag");
+  if (num) set(num, P(t, a + .1, a + .5), `translateX(${(1 - eOut(P(t, a + .1, a + .6))) * -120}px)`);
+  if (tag) rise(tag, P(t, a + .3, a + .7), 30);
+  $$(".title .ln>span", el).forEach((sp, i) => {
+    const p = eOut(P(t, a + .35 + i * .14, a + .85 + i * .14));
+    sp.style.transform = `translateY(${(1 - p) * 110}%)`;
+  });
+  const det = el.querySelector(".detail");
+  if (det) rise(det, P(t, a + 1.9, a + 2.4), 60);
+  $$(".detail .row", el).forEach((r, i) => rise(r, P(t, a + 2.1 + i * .6, a + 2.5 + i * .6), 20));
+}
+
+function render(t) {
+  SC.forEach(s => s.el.style.visibility = (t >= s.a && t < s.b) ? "visible" : "hidden");
+
+  /* barra superior */
+  const cur = SC.find(s => t >= s.a && t < s.b && s.step);
+  const topIn = P(t, 3.8, 4.3), topOut = 1 - P(t, 32.8, 33.2);
+  set($("#prog"), Math.min(topIn, topOut));
+  set($("#top .logo"), Math.min(P(t, .2, .6), topOut));
+  if (cur) $("#progLbl").textContent = `PASO ${cur.step} DE 4`;
+  $$("#prog .bar i").forEach((bar, i) => {
+    const st = [4, 10, 16, 27][i], en = [10, 16, 27, 33][i];
+    bar.style.width = (eIO(P(t, st, en)) * 100) + "%";
+  });
+
+  /* INTRO */
+  {
+    const e = SC[0].el, out = eIn(P(t, 3.7, 4.15));
+    e.style.opacity = 1 - out; e.style.transform = `translateX(${-out * 160}px)`;
+    rise($("#intro .kicker"), P(t, .3, .7), 30);
+    $$("#intro .h span").forEach((s, i) => rise(s, P(t, .5 + i * .25, 1 + i * .25), 70));
+    const n = P(t, 1.3, 1.9);
+    set($("#intro .four .n"), n, `scale(${.4 + .6 * eBack(n, 2.2)})`);
+    rise($("#intro .four .t"), P(t, 1.7, 2.1), 30);
+    rise($("#intro .with"), P(t, 2.2, 2.6), 30);
+  }
+
+  /* PASO 1 */
+  {
+    const s = SC[1]; stepFrame(s, t);
+    const svg = $("#p1 svg");
+    $$("[pathLength]", svg).forEach((p, i) => {
+      const dashed = i === 7;
+      if (dashed) { p.style.strokeDasharray = "0.04 0.03"; p.style.opacity = P(t, 5.6, 6); p.style.strokeDashoffset = -(t * .08); }
+      else { p.style.strokeDasharray = 1; p.style.strokeDashoffset = 1 - eIO(P(t, 4.6 + i * .12, 5.4 + i * .12)); }
+    });
+    const bp = P(t, 6.2, 6.6);
+    $("#p1badge").style.transformOrigin = "850px 110px";
+    set($("#p1badge"), bp, `scale(${eBack(bp, 2.5)})`);
+    $$("#p1 text").forEach((tx, i) => tx.style.opacity = P(t, 5.4 + i * .3, 5.8 + i * .3));
+  }
+
+  /* PASO 2 */
+  {
+    const s = SC[2]; stepFrame(s, t);
+    $("#p2 .example").style.opacity = P(t, 10.6, 11);
+    $$("#p2 .chip").forEach((c, i) => {
+      const p = P(t, 10.8 + i * .45, 11.5 + i * .45);
+      set(c, P(t, 10.8 + i * .45, 11 + i * .45), `translateX(${(1 - eBack(p, 1.6)) * 700}px)`);
+      const lk = c.querySelector(".lock"), lp = P(t, 12.4 + i * .2, 12.7 + i * .2);
+      set(lk, lp, `scale(${eBack(lp, 3)})`);
+    });
+  }
+
+  /* PASO 3 */
+  {
+    const s = SC[3]; stepFrame(s, t);
+    const props = $$("#p3 .prop");
+    props.forEach((p, i) => {
+      const pp = P(t, 16.6 + i * .2, 17.2 + i * .2);
+      set(p, pp, `translateY(${(1 - eBack(pp, 1.6)) * 120}px)`);
+    });
+    // lupa recorre las tres y se detiene en la del centro
+    const xs = [40, 690, 365];
+    const k1 = eIO(P(t, 17.4, 18.3)), k2 = eIO(P(t, 18.4, 19.1));
+    const x = k2 > 0 ? xs[1] + (xs[2] - xs[1]) * k2 : xs[0] + (xs[1] - xs[0]) * k1;
+    set($("#mag"), Math.min(P(t, 17.2, 17.5), 1 - P(t, 19.4, 19.7)), `translate(${x}px, ${Math.sin(t * 4) * 10}px)`);
+    const found = P(t, 19.2, 19.6);
+    props.forEach((p, i) => { if (i !== 1) p.style.opacity = Math.min(+p.style.opacity, 1 - found * .55); });
+    $("#idealProp").style.transform += ` scale(${1 + eBack(found, 2) * .1})`;
+    $("#idealProp").style.boxShadow = found ? `0 0 0 ${found * 10}px var(--accent), 0 24px 50px rgba(0,0,0,.2)` : "";
+    const ok = $("#idealProp .ok"), op = P(t, 19.4, 19.8);
+    set(ok, op, `scale(${eBack(op, 2.5)})`);
+    rise($("#idealProp .ideal"), P(t, 19.6, 20), 20);
+  }
+
+  /* LEGAL */
+  {
+    const s = SC[4]; stepFrame(s, t);
+    $$("#legal [pathLength]").forEach((p, i) => { p.style.strokeDasharray = 1; p.style.strokeDashoffset = 1 - eIO(P(t, 22.5 + i * .12, 23.2 + i * .12)); });
+    const sp = P(t, 23.3, 23.8);
+    $("#shield").style.transformOrigin = "300px 510px";
+    set($("#shield"), sp, `scale(${eBack(sp, 2.2)})`);
+    $$("#legal .check").forEach((c, i) => {
+      const p = P(t, 23.5 + i * .35, 23.95 + i * .35);
+      set(c, p, `translateX(${(1 - eOut(p)) * 80}px)`);
+    });
+  }
+
+  /* PASO 4 */
+  {
+    const s = SC[5]; stepFrame(s, t);
+    const art = $("#p4 .art"), ap = P(t, 27.5, 28.1);
+    set(art, ap, `translateY(${(1 - eBack(ap, 1.4)) * 120}px)`);
+    const sig = $("#sig"), sp = eIO(P(t, 28.5, 30.1));
+    sig.style.strokeDasharray = 1; sig.style.strokeDashoffset = 1 - sp;
+    const len = sig.getTotalLength(), pt = sig.getPointAtLength(len * sp);
+    set($("#pen"), Math.min(P(t, 28.2, 28.5), 1 - P(t, 30.2, 30.5)), `translate(${pt.x}px, ${pt.y}px)`);
+    const st = P(t, 30.3, 30.7);
+    $("#started").style.transformOrigin = "700px 40px";
+    set($("#started"), st, `scale(${eBack(st, 2.5)})`);
+  }
+
+  /* CIERRE */
+  {
+    const big = P(t, 33.2, 33.8);
+    set($("#outro .bigLogo"), big, `scale(${.7 + .3 * eBack(big, 1.8)})`);
+    rise($("#outro .h"), P(t, 33.6, 34.1), 40);
+    $$("#outro .rc").forEach((r, i) => {
+      const p = P(t, 34 + i * .25, 34.5 + i * .25);
+      set(r, p, `translateX(${(1 - eOut(p)) * (i % 2 ? 120 : -120)}px)`);
+    });
+    const c = P(t, 35.3, 35.8);
+    set($("#outro .cta"), c, `scale(${.8 + .2 * eBack(c, 2.2) + (c >= 1 ? Math.sin((t - 35.8) * 5) * .015 : 0)})`);
+    rise($("#contact"), P(t, 35.7, 36.1), 20);
+  }
+
+  $("#time").textContent = t.toFixed(1) + " / " + DURATION + " s";
+}
+
+/* ---------- reloj, loop y reinicio ---------- */
+const EXPORT = new URLSearchParams(location.search).has("export");
+let t0 = 0;
+function fit() {
+  const s = EXPORT ? 1 : Math.min(innerWidth / 1080, innerHeight / 1920);
+  $("#stage").style.transform = `scale(${s}) translate(-50%,-50%)`;
+}
+function loop(now) { render(((now - t0) / 1000) % DURATION); requestAnimationFrame(loop); }
+function restart() { t0 = performance.now(); }
+$("#restart").addEventListener("click", restart);
+addEventListener("keydown", e => { if (e.key === "r" || e.key === "R") restart(); });
+addEventListener("resize", fit);
+window.renderAt = render;
+
+Promise.all([document.fonts.ready, loadLogo()]).then(() => {
+  fit(); render(0);
+  if (EXPORT) { document.body.classList.add("export"); window.__ready = true; }
+  else { restart(); requestAnimationFrame(loop); }
+});
+</script>
+</body>
+</html>
