@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reel Propietario 9:16</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   COLOR PRINCIPAL: cambia --brand y todo el video se actualiza.
+   ============================================================ */
+:root{
+  --brand:#1238D6;
+  --white:#ffffff;
+  --brand-a10:color-mix(in srgb,var(--brand) 10%,transparent);
+  --brand-a20:color-mix(in srgb,var(--brand) 20%,transparent);
+  --brand-a45:color-mix(in srgb,var(--brand) 45%,transparent);
+  --white-a25:rgba(255,255,255,.25);
+  --white-a60:rgba(255,255,255,.6);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#0b0b0f;overflow:hidden}
+body{display:flex;align-items:center;justify-content:center;font-family:"Inter",system-ui,sans-serif}
+#stage{position:absolute;left:50%;top:50%;width:1080px;height:1920px;overflow:hidden;background:var(--white);transform-origin:0 0}
+.scene{position:absolute;inset:0;visibility:hidden}
+.osw{font-family:"Oswald",sans-serif;text-transform:uppercase;line-height:.95}
+.l{font-weight:300}.b{font-weight:700}
+.inter{font-family:"Inter",sans-serif}
+.center{position:absolute;left:0;right:0;text-align:center}
+.clip{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .04em}
+.clip>span{display:inline-block;will-change:transform}
+
+/* S1 */
+#s1 .lines{position:absolute;left:90px;right:90px;top:360px;color:var(--brand)}
+#s1 .line{font-size:170px;display:block;white-space:nowrap}
+#s1 .line.big{font-size:250px}
+
+/* S2 */
+#s2 .dot{position:absolute;left:540px;top:1480px;width:240px;height:240px;margin:-120px 0 0 -120px;border-radius:50%;background:var(--brand)}
+#s2 .ico{position:absolute;left:540px;top:1480px;width:150px;height:150px;margin:-75px 0 0 -75px}
+
+/* S3 */
+#s3{background:var(--brand)}
+#s3 .rows{position:absolute;left:0;top:-40px;width:100%}
+#s3 .row{font-size:210px;white-space:nowrap;color:transparent;-webkit-text-stroke:2px var(--white-a25);height:212px;will-change:transform}
+#s3 .hero{position:absolute;left:0;right:0;top:760px;text-align:center;color:var(--white)}
+#s3 .hero .w{font-size:200px;white-space:nowrap;display:inline-block}
+#s3 .sub{top:1010px;color:var(--white);font-size:44px;font-weight:500;letter-spacing:.01em}
+#s3 .kick{top:640px;color:var(--white);font-size:72px;letter-spacing:.06em}
+#s3 .heroBg{position:absolute;left:40px;right:40px;top:730px;height:270px;background:var(--brand)}
+
+/* S4 */
+#s4{background:var(--brand);color:var(--white)}
+#s4 .glow{position:absolute;left:50%;top:930px;width:1400px;height:1400px;margin:-700px 0 0 -700px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.28) 0%,rgba(255,255,255,0) 60%)}
+#s4 .title{top:170px}
+#s4 .title div{font-size:110px}
+#s4 svg.city{position:absolute;left:90px;top:440px;width:900px;height:820px;overflow:visible}
+#s4 svg.city .ln{fill:none;stroke:var(--white);stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+#s4 .count{top:1300px}
+#s4 .count .n{font-size:260px;font-weight:700}
+#s4 .count .lbl{margin-top:14px;font-size:44px;font-weight:500;line-height:1.3}
+#s4 .badge{position:absolute;left:50%;top:1740px;transform:translateX(-50%);white-space:nowrap;border:2px solid var(--white-a60);border-radius:999px;padding:18px 40px;font-size:32px;font-weight:600;letter-spacing:.02em}
+
+/* S5 */
+#s5{background:var(--brand)}
+#s5 .title{top:170px;color:var(--white)}
+#s5 .title div{font-size:118px}
+#s5 .grid{position:absolute;left:70px;right:70px;top:720px;display:grid;grid-template-columns:1fr 1fr;gap:40px}
+#s5 .card{background:var(--white);border-radius:44px;height:470px;padding:56px 44px;display:flex;flex-direction:column;justify-content:flex-end;box-shadow:0 30px 60px rgba(0,0,0,.18);will-change:transform}
+#s5 .card svg{width:130px;height:130px;margin-bottom:auto;fill:none;stroke:var(--brand);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+#s5 .card .h{font-size:70px;color:var(--brand);font-weight:700}
+#s5 .card .p{margin-top:16px;font-size:30px;line-height:1.3;color:var(--brand);opacity:.75;font-weight:500}
+
+/* S6 */
+#s6{background:var(--white);color:var(--brand)}
+#s6 .map{position:absolute;inset:0;background-image:linear-gradient(var(--brand-a10) 2px,transparent 2px),linear-gradient(90deg,var(--brand-a10) 2px,transparent 2px);background-size:90px 90px;background-position:0 0}
+#s6 .title{top:200px}
+#s6 .title div{font-size:140px}
+#s6 .pinWrap{position:absolute;left:540px;top:960px}
+#s6 .ring{position:absolute;left:-160px;top:-60px;width:320px;height:120px;border-radius:50%;border:4px solid var(--brand)}
+#s6 .shadow{position:absolute;left:-60px;top:-18px;width:120px;height:36px;border-radius:50%;background:var(--brand-a20)}
+#s6 svg.pin{position:absolute;left:-110px;top:-290px;width:220px;height:290px;will-change:transform}
+#s6 .board{position:absolute;left:90px;right:90px;top:1150px;text-align:center}
+#s6 .board .k{font-size:44px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+#s6 .odo{margin-top:36px;display:flex;justify-content:center;align-items:flex-end;gap:14px}
+#s6 .cell{width:150px;height:220px;border-radius:26px;background:var(--brand);color:var(--white);overflow:hidden;position:relative;box-shadow:0 20px 40px var(--brand-a20)}
+#s6 .cell::after{content:"";position:absolute;left:0;right:0;top:50%;height:3px;background:rgba(0,0,0,.18)}
+#s6 .strip{position:absolute;left:0;right:0;top:0;will-change:transform}
+#s6 .strip div,#s6 .cell.fix{height:220px;line-height:220px;text-align:center;font-family:"Oswald";font-weight:700;font-size:170px}
+#s6 .sym{font-family:"Oswald";font-weight:700;font-size:170px;line-height:220px;color:var(--brand)}
+#s6 .comma{font-family:"Oswald";font-weight:700;font-size:150px;line-height:220px;width:30px;color:var(--brand)}
+#s6 .mxn{font-family:"Oswald";font-weight:300;font-size:90px;margin-top:30px;letter-spacing:.2em}
+
+/* S7 */
+#s7{background:var(--brand);color:var(--white)}
+#s7 .wrap{position:absolute;left:0;right:0;top:700px;text-align:center}
+#s7 .te{font-size:200px}
+#s7 .int{font-size:178px;white-space:nowrap}
+#s7 .echo{position:absolute;left:0;right:0;top:0;text-align:center;color:transparent;-webkit-text-stroke:2px var(--white-a60)}
+
+/* S8 */
+#s8{background:var(--white);color:var(--brand)}
+#s8 .head{top:250px}
+#s8 .head div{font-size:110px}
+#s8 .ig{position:absolute;left:70px;right:70px;top:520px;border:3px solid var(--brand-a20);border-radius:40px;padding:40px 44px;background:var(--white);box-shadow:0 30px 70px var(--brand-a10)}
+#s8 .posted{display:flex;align-items:center;gap:28px;height:0;overflow:hidden}
+#s8 .av{width:96px;height:96px;border-radius:50%;flex:none;background:var(--brand-a10);display:flex;align-items:center;justify-content:center}
+#s8 .av svg{width:56px;height:56px;fill:none;stroke:var(--brand);stroke-width:1.8}
+#s8 .posted .u{font-weight:700;font-size:34px}
+#s8 .posted .c{font-family:"Oswald";font-weight:700;font-size:56px;letter-spacing:.02em}
+#s8 .posted .heart{margin-left:auto;width:56px;height:56px}
+#s8 .inputRow{display:flex;align-items:center;gap:28px}
+#s8 .field{flex:1;height:110px;border:3px solid var(--brand-a20);border-radius:999px;display:flex;align-items:center;padding:0 40px;font-size:38px;position:relative}
+#s8 .ph{color:var(--brand-a45);position:absolute;left:40px}
+#s8 .typed{font-family:"Oswald";font-weight:700;font-size:58px;letter-spacing:.02em}
+#s8 .caret{display:inline-block;width:4px;height:60px;background:var(--brand);margin-left:6px;vertical-align:middle}
+#s8 .pub{font-weight:700;font-size:36px;color:var(--brand)}
+#s8 .divider{height:3px;background:var(--brand-a10);margin:30px 0}
+#s8 .say{top:1000px}
+#s8 .say div{font-size:150px}
+#s8 .logo{position:absolute;left:0;right:0;top:1420px;text-align:center}
+#s8 .mark{display:inline-flex;align-items:center;gap:22px}
+#s8 .mark .sq{width:96px;height:96px;border-radius:26px;background:var(--brand);color:var(--white);font-family:"Oswald";font-weight:700;font-size:70px;line-height:96px;text-align:center}
+#s8 .mark .name{font-family:"Oswald";font-weight:700;font-size:96px;letter-spacing:.04em;text-transform:uppercase}
+#s8 .contact{margin-top:40px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap;font-size:34px;font-weight:600}
+#s8 .chip{display:inline-flex;align-items:center;gap:14px;border:3px solid var(--brand);border-radius:999px;padding:16px 30px}
+#s8 .chip svg{width:38px;height:38px;fill:none;stroke:var(--brand);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#s8 .legal{position:absolute;left:0;right:0;bottom:70px;text-align:center;font-size:24px;opacity:.6;font-weight:500}
+
+/* Wipe overlays */
+.wipe{position:absolute;inset:0;visibility:hidden;pointer-events:none}
+
+/* UI */
+#ui{position:fixed;right:20px;bottom:20px;display:flex;gap:10px;z-index:10}
+#ui button{font:600 15px "Inter",sans-serif;background:#fff;color:#111;border:0;border-radius:999px;padding:12px 20px;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.3)}
+#ui button:hover{transform:translateY(-1px)}
+#time{position:fixed;left:20px;bottom:24px;color:#aaa;font:500 13px "Inter",sans-serif;z-index:10}
+body.export #ui,body.export #time{display:none}
+body.export{background:#fff}
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- 1 · ¿Y SI TE DIJERA QUE PUEDES SER… -->
+  <section class="scene" id="s1">
+    <div class="lines osw">
+      <span class="line"><span class="clip"><span class="l w">¿Y</span></span> <span class="clip"><span class="b w">SI</span></span> <span class="clip"><span class="l w">TE</span></span></span>
+      <span class="line"><span class="clip"><span class="b w">DIJERA</span></span></span>
+      <span class="line"><span class="clip"><span class="l w">QUE</span></span> <span class="clip"><span class="b w">PUEDES</span></span></span>
+      <span class="line big"><span class="clip"><span class="b w">SER…</span></span></span>
+    </div>
+  </section>
+
+  <!-- 2 · Ícono que crece y llena la pantalla -->
+  <section class="scene" id="s2">
+    <div class="dot"></div>
+    <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M9 21v-5h6v5"/><path d="M9 11h.01M12 11h.01M15 11h.01"/>
+    </svg>
+  </section>
+
+  <!-- 3 · PROPIETARIO -->
+  <section class="scene" id="s3">
+    <div class="rows osw b" id="rows"></div>
+    <div class="heroBg"></div>
+    <div class="center kick osw l">PUEDES SER</div>
+    <div class="hero osw b"><span class="w" id="heroWord"></span></div>
+    <div class="center sub inter">de un desarrollo inmobiliario real</div>
+  </section>
+
+  <!-- 4 · Desarrollo que se ilumina + contador -->
+  <section class="scene" id="s4">
+    <div class="glow"></div>
+    <div class="center title osw">
+      <div class="l"><span class="clip"><span>PROYECTOS REALES,</span></span></div>
+      <div class="b"><span class="clip"><span>RESPALDO REAL</span></span></div>
+    </div>
+    <svg class="city" viewBox="0 0 900 820" id="city">
+      <g id="cityLines">
+        <path class="ln" pathLength="1" d="M30 770H870"/>
+        <path class="ln" pathLength="1" d="M110 770V330H320V770"/>
+        <path class="ln" pathLength="1" d="M360 770V130H580V770"/>
+        <path class="ln" pathLength="1" d="M470 130V60M440 130L470 95L500 130"/>
+        <path class="ln" pathLength="1" d="M620 770V420H800V770"/>
+        <path class="ln" pathLength="1" d="M710 420V120H880M710 150H560M600 150V215M880 120V150"/>
+        <path class="ln" pathLength="1" d="M710 120L760 70M710 120L660 70M660 70H760"/>
+        <path class="ln" pathLength="1" d="M60 770V720M60 720C20 720 25 650 60 640C95 650 100 720 60 720"/>
+        <path class="ln" pathLength="1" d="M845 770V725M845 725C810 725 815 665 845 655C875 665 880 725 845 725"/>
+        <path class="ln" pathLength="1" d="M420 770V700H520V770"/>
+      </g>
+      <g id="windows"></g>
+    </svg>
+    <div class="center count">
+      <div class="n osw" id="countN">0%</div>
+      <div class="lbl inter" id="countLbl"></div>
+    </div>
+    <div class="badge inter" id="badge"></div>
+  </section>
+
+  <!-- 5 · Tarjetas -->
+  <section class="scene" id="s5">
+    <div class="center title osw">
+      <div class="l"><span class="clip"><span>PROPIETARIO</span></span></div>
+      <div class="b"><span class="clip"><span>DE LO QUE GENERA</span></span></div>
+      <div class="l"><span class="clip"><span>EL PROYECTO</span></span></div>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <svg viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="4"/><path d="M10.5 12.5L20 3M16.5 6.5l2.5 2.5M14 9l2 2"/></svg>
+        <div class="h osw">Rentas</div><div class="p inter">Ingresos por arrendamiento del inmueble</div>
+      </div>
+      <div class="card">
+        <svg viewBox="0 0 24 24"><path d="M3 20.5h18"/><path d="M4 16l5-5 4 3 7-8"/><path d="M15 6h5v5"/></svg>
+        <div class="h osw">Plusvalía</div><div class="p inter">Valorización del desarrollo en el tiempo</div>
+      </div>
+      <div class="card">
+        <svg viewBox="0 0 24 24"><path d="M4 8h15M15 4l4 4-4 4"/><path d="M20 16H5M9 12l-4 4 4 4"/></svg>
+        <div class="h osw">Liquidez</div><div class="p inter">Compra y venta de tu participación digital</div>
+      </div>
+      <div class="card">
+        <svg viewBox="0 0 24 24"><path d="M14 3H6v18h7"/><path d="M14 3l4 4v6"/><path d="M14 3v4h4"/><path d="M9 10h6M9 13.5h4"/><circle cx="17.5" cy="17" r="3"/><path d="M16 19.6L15.5 22.5l2-1 2 1-.5-2.9"/></svg>
+        <div class="h osw">Respaldo notarial</div><div class="p inter">Contrato civil y escritura ante notario</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · Tu lugar en el proyecto + odómetro -->
+  <section class="scene" id="s6">
+    <div class="map"></div>
+    <div class="center title osw">
+      <div class="b"><span class="clip"><span>TU LUGAR</span></span></div>
+      <div class="l"><span class="clip"><span>EN EL PROYECTO</span></span></div>
+    </div>
+    <div class="pinWrap">
+      <div class="ring" id="ring1"></div><div class="ring" id="ring2"></div>
+      <div class="shadow"></div>
+      <svg class="pin" viewBox="0 0 220 290"><path d="M110 285C110 285 10 170 10 105A100 100 0 0 1 210 105C210 170 110 285 110 285Z" fill="var(--brand)"/><circle cx="110" cy="105" r="46" fill="#fff"/><path d="M90 122V100l20-15 20 15v22z" fill="none" stroke="var(--brand)" stroke-width="7" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="board">
+      <div class="k inter">Participación desde</div>
+      <div class="odo" id="odo"></div>
+      <div class="mxn">MXN</div>
+    </div>
+  </section>
+
+  <!-- 7 · ¿TE INTERESARÍA? -->
+  <section class="scene" id="s7">
+    <div class="wrap osw">
+      <div class="te l">¿TE</div>
+      <div style="position:relative">
+        <div class="echo int b" id="e1">INTERESARÍA?</div>
+        <div class="echo int b" id="e2">INTERESARÍA?</div>
+        <div class="int b" id="intW">INTERESARÍA?</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 · Comentario Instagram + contacto -->
+  <section class="scene" id="s8">
+    <div class="center head osw">
+      <div class="l">COMENTA</div>
+    </div>
+    <div class="ig" id="ig">
+      <div class="posted" id="posted">
+        <div class="av"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.5-6.5 8-6.5s7 2 8 6.5"/></svg></div>
+        <div><div class="u inter">tu_usuario</div><div class="c">QUIERO</div></div>
+        <svg class="heart" viewBox="0 0 24 24"><path id="heartP" d="M12 20s-7-4.4-9-8.5C1.6 8.4 3.6 5 7 5c2 0 3.3 1.2 5 3 1.7-1.8 3-3 5-3 3.4 0 5.4 3.4 4 6.5-2 4.1-9 8.5-9 8.5z" fill="none" stroke="var(--brand)" stroke-width="1.8"/></svg>
+      </div>
+      <div class="divider" id="divider" style="opacity:0"></div>
+      <div class="inputRow">
+        <div class="av"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.5-6.5 8-6.5s7 2 8 6.5"/></svg></div>
+        <div class="field inter"><span class="ph" id="ph">Agrega un comentario…</span><span class="typed" id="typed"></span><span class="caret" id="caret"></span></div>
+        <div class="pub inter" id="pub">Publicar</div>
+      </div>
+    </div>
+    <div class="center say osw">
+      <div class="l"><span class="clip"><span>Y TE</span></span></div>
+      <div class="b"><span class="clip"><span>ESCRIBIMOS</span></span></div>
+    </div>
+    <div class="logo" id="logo">
+      <div class="mark"><div class="sq">b</div><div class="name" id="brandName"></div></div>
+      <div class="contact inter">
+        <span class="chip"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/></svg><span id="web"></span></span>
+        <span class="chip"><svg viewBox="0 0 24 24"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1.2-1.4-2-1-.9.9c-1-.4-1.9-1.3-2.3-2.3l.9-.9-1-2L9 9.5z"/></svg><span id="wa"></span></span>
+      </div>
+    </div>
+    <div class="legal inter" id="legal"></div>
+  </section>
+
+  <div class="wipe" id="wipeWhite" style="background:var(--white)"></div>
+</div>
+
+<div id="time"></div>
+<div id="ui"><button id="restart" type="button">↻ Reiniciar</button></div>
+
+<script>
+/* ============================================================
+   DATOS EDITABLES
+   ============================================================ */
+const CONFIG = {
+  brandName: "Binkio",
+  web: "www.binkio.com",
+  whatsapp: "+52 322 348 1432",
+  legal: "Licencia PSAV México · PSAD El Salvador",
+  // Escena 4 — dato de credibilidad (contador)
+  statValue: 100, statSuffix: "%",
+  statLabel: "de participantes verificados con<br>KYC/KYB institucional",
+  statBadge: "Licencia PSAV México · PSAD El Salvador",
+  // Escena 6 — monto mínimo de participación (MXN)
+  minTicket: 5000,
+  // Ajustes de movimiento (iterar aquí)
+  counterDuration: 1.8,   // seg. que tarda el contador de la escena 4
+  cardRotate: 10,         // grados que giran las tarjetas al entrar
+  odometerDuration: 2.2,  // seg. del odómetro de la escena 6
+  typeSpeed: 0.16         // seg. por letra en "QUIERO"
+};
+const DURATION = 27;
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const P = (t, a, b) => clamp((t - a) / (b - a));
+const lerp = (a, b, x) => a + (b - a) * x;
+const eOut = x => 1 - Math.pow(1 - x, 3);
+const eIn = x => x * x * x;
+const eIO = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const eBack = (x, s = 1.9) => x <= 0 ? 0 : x >= 1 ? 1 : 1 + (s + 1) * Math.pow(x - 1, 3) + s * Math.pow(x - 1, 2);
+const show = (el, t, a, b) => { el.style.visibility = (t >= a && t < b) ? "visible" : "hidden"; };
+const reveal = (el, p) => { el.style.transform = `translateY(${(1 - eOut(p)) * 105}%)`; };
+const fmt = n => n.toLocaleString("es-MX");
+
+/* ---------- build dynamic DOM ---------- */
+$("#rows").innerHTML = Array.from({length: 10}, () => `<div class="row">${"PROPIETARIO ".repeat(4)}</div>`).join("");
+$("#heroWord").innerHTML = [..."PROPIETARIO"].map(c => `<span class="clip"><span>${c}</span></span>`).join("");
+$("#countLbl").innerHTML = CONFIG.statLabel;
+$("#badge").textContent = CONFIG.statBadge;
+$("#brandName").textContent = CONFIG.brandName;
+$("#web").textContent = CONFIG.web;
+$("#wa").textContent = CONFIG.whatsapp;
+$("#legal").textContent = CONFIG.legal;
+
+// ventanas del edificio
+const winG = $("#windows"), WINS = [];
+const towers = [[110, 330, 320, 700, 3], [360, 130, 580, 690, 4], [620, 420, 800, 770, 3]];
+towers.forEach(([x0, y0, x1, y1, cols]) => {
+  const pad = 26, gw = (x1 - x0 - pad * 2), cw = gw / cols, ww = cw * .55, wh = 38;
+  for (let y = y0 + 40; y + wh < y1 - 40; y += 70)
+    for (let c = 0; c < cols; c++) {
+      const r = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+      r.setAttribute("x", x0 + pad + c * cw + (cw - ww) / 2); r.setAttribute("y", y);
+      r.setAttribute("width", ww); r.setAttribute("height", wh); r.setAttribute("rx", 4);
+      r.setAttribute("fill", "#fff"); r.setAttribute("stroke", "rgba(255,255,255,.55)"); r.setAttribute("stroke-width", 2);
+      winG.appendChild(r); WINS.push(r);
+    }
+});
+// orden de encendido pseudoaleatorio pero determinista
+let seed = 7; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+const winDelay = WINS.map(() => rnd());
+
+// odómetro
+const ticketStr = "$" + fmt(CONFIG.minTicket);
+const odo = $("#odo"), STRIPS = [];
+[...ticketStr].forEach(ch => {
+  if (ch === "$") odo.insertAdjacentHTML("beforeend", `<div class="sym">$</div>`);
+  else if (/\d/.test(ch)) {
+    const cell = document.createElement("div"); cell.className = "cell";
+    const strip = document.createElement("div"); strip.className = "strip";
+    strip.innerHTML = Array.from({length: 30}, (_, i) => `<div>${i % 10}</div>`).join("");
+    cell.appendChild(strip); odo.appendChild(cell);
+    STRIPS.push({strip, target: 20 + +ch});
+  } else odo.insertAdjacentHTML("beforeend", `<div class="comma">${ch}</div>`);
+});
+
+// ajusta "PROPIETARIO" para que quepa a lo ancho
+function fitHero() {
+  const w = $("#heroWord"); w.style.fontSize = "200px";
+  const s = Math.min(1, 1000 / w.scrollWidth); w.style.fontSize = (200 * s) + "px";
+  const iw = $("#intW"); iw.style.fontSize = "178px";
+  const s2 = Math.min(1, 1000 / iw.scrollWidth);
+  $$("#s7 .int").forEach(e => e.style.fontSize = (178 * s2) + "px");
+  $$("#s1 .line").forEach(l => { l.style.fontSize = ""; const base = parseFloat(getComputedStyle(l).fontSize); const k = Math.min(1, 900 / l.scrollWidth); l.style.fontSize = base * k + "px"; });
+}
+
+/* ---------- render(t): todo el video es función del tiempo ---------- */
+const sc = id => document.getElementById(id);
+const S = {s1: sc("s1"), s2: sc("s2"), s3: sc("s3"), s4: sc("s4"), s5: sc("s5"), s6: sc("s6"), s7: sc("s7"), s8: sc("s8")};
+const s1Words = $$("#s1 .w");
+const rows = $$("#s3 .row");
+const heroLetters = $$("#heroWord .clip>span");
+const cityPaths = $$("#cityLines .ln");
+const cards = $$("#s5 .card");
+
+function render(t) {
+  /* 1 · 0 – 4.6 s */
+  show(S.s1, t, 0, 4.6);
+  s1Words.forEach((w, i) => {
+    const st = 0.25 + i * 0.36;
+    reveal(w, P(t, st, st + 0.5));
+  });
+  $("#s1 .lines").style.transform = `translateY(${-eIO(P(t, 3.2, 4.4)) * 120}px)`;
+
+  /* 2 · 3.2 – 4.9 s : ícono crece y llena */
+  show(S.s2, t, 3.2, 4.9);
+  {
+    const pop = eBack(P(t, 3.2, 3.65), 2.2), grow = eIn(P(t, 3.85, 4.75));
+    const sDot = pop * (1 + grow * 17);
+    $("#s2 .dot").style.transform = `scale(${sDot})`;
+    $("#s2 .ico").style.transform = `scale(${pop * (1 + grow * 3)})`;
+    $("#s2 .ico").style.opacity = 1 - P(t, 3.85, 4.1);
+  }
+
+  /* 3 · 4.7 – 8.1 s : PROPIETARIO */
+  show(S.s3, t, 4.7, 8.1);
+  {
+    const lt = t - 4.7;
+    rows.forEach((r, i) => {
+      const dir = i % 2 ? 1 : -1;
+      r.style.transform = `translateX(${-700 + dir * lt * 90 + (i % 3) * 120}px)`;
+      r.style.opacity = P(t, 4.7 + i * 0.04, 5.3 + i * 0.04);
+    });
+    heroLetters.forEach((l, j) => reveal(l, P(t, 4.95 + j * 0.05, 5.5 + j * 0.05)));
+    $("#s3 .kick").style.opacity = P(t, 5.4, 5.8);
+    $("#s3 .kick").style.transform = `translateY(${(1 - eOut(P(t, 5.4, 5.8))) * 30}px)`;
+    $("#s3 .sub").style.opacity = P(t, 5.9, 6.3);
+    $("#s3 .sub").style.transform = `translateY(${(1 - eOut(P(t, 5.9, 6.3))) * 30}px)`;
+    const out = eIn(P(t, 7.7, 8.1));
+    $("#s3 .hero").style.transform = `scale(${1 + out * .25})`;
+    $("#s3 .hero").style.opacity = 1 - out;
+    $("#s3 .heroBg").style.opacity = 1 - out;
+    $("#s3 .kick").style.opacity = Math.min(P(t, 5.4, 5.8), 1 - out);
+    $("#s3 .sub").style.opacity = Math.min(P(t, 5.9, 6.3), 1 - out);
+  }
+
+  /* 4 · 8.0 – 12.3 s : desarrollo se ilumina + contador */
+  show(S.s4, t, 8.0, 12.3);
+  {
+    $$("#s4 .title .clip>span").forEach((e, i) => reveal(e, P(t, 8.05 + i * .15, 8.55 + i * .15)));
+    cityPaths.forEach((p, i) => p.style.strokeDashoffset = 1 - eIO(P(t, 8.2 + i * .1, 9.3 + i * .1)));
+    cityPaths.forEach(p => p.style.strokeDasharray = 1);
+    WINS.forEach((w, i) => {
+      const st = 9.5 + winDelay[i] * 1.2;
+      const p = P(t, st, st + .25);
+      w.style.fillOpacity = p * .95; w.style.strokeOpacity = Math.max(.6, p);
+    });
+    const glow = eOut(P(t, 9.6, 11));
+    $("#s4 .glow").style.transform = `scale(${.6 + glow * .4})`;
+    $("#city").style.filter = `drop-shadow(0 0 ${glow * 18}px rgba(255,255,255,${glow * .7}))`;
+    const cp = eOut(P(t, 9.8, 9.8 + CONFIG.counterDuration));
+    $("#countN").textContent = Math.round(cp * CONFIG.statValue) + CONFIG.statSuffix;
+    $("#countLbl").style.opacity = P(t, 10.3, 10.7);
+    $("#badge").style.transform = `translateX(-50%) translateY(${(1 - eOut(P(t, 10.9, 11.3))) * 30}px)`;
+    const out = 1 - P(t, 12.0, 12.3);
+    $("#s4 .title").style.opacity = out;
+    $("#city").style.opacity = out;
+    $("#s4 .count").style.opacity = Math.min(P(t, 9.7, 10), out);
+    $("#badge").style.opacity = Math.min(P(t, 10.9, 11.3), out);
+    $("#s4 .glow").style.opacity = Math.min(glow, out);
+  }
+
+  /* 5 · 12.2 – 16.7 s : tarjetas con rebote */
+  show(S.s5, t, 12.2, 16.7);
+  {
+    $$("#s5 .title .clip>span").forEach((e, i) => reveal(e, P(t, 12.3 + i * .15, 12.8 + i * .15)));
+    cards.forEach((c, i) => {
+      const st = 13.0 + i * .45, p = P(t, st, st + .75), e = eBack(p, 2.4);
+      const out = eIn(P(t, 16.3 + i * .05, 16.65));
+      const rot = (i % 2 ? 1 : -1) * CONFIG.cardRotate * (1 - eOut(p));
+      c.style.opacity = Math.min(P(t, st, st + .15), 1 - out);
+      c.style.transform = `translateY(${(1 - e) * 260 + out * 120}px) scale(${.6 + .4 * e}) rotate(${rot}deg)`;
+    });
+    $("#s5 .title").style.opacity = 1 - P(t, 16.3, 16.6);
+  }
+
+  /* 6 · 16.5 – 20.8 s : tu lugar + odómetro */
+  show(S.s6, t, 16.5, 20.8);
+  {
+    const w = eIO(P(t, 16.5, 16.95));
+    S.s6.style.clipPath = `inset(${(1 - w) * 100}% 0 0 0)`;
+    $("#s6 .map").style.backgroundPosition = `0 ${(t - 16.5) * 20}px`;
+    $("#s6 .map").style.opacity = P(t, 16.8, 17.3);
+    $$("#s6 .title .clip>span").forEach((e, i) => reveal(e, P(t, 16.85 + i * .15, 17.35 + i * .15)));
+    const drop = eBack(P(t, 17.2, 17.75), 2.6);
+    $("#s6 .pin").style.transform = `translateY(${(1 - drop) * -500}px)`;
+    $("#s6 .pin").style.opacity = P(t, 17.2, 17.3);
+    $("#s6 .shadow").style.transform = `scale(${drop})`;
+    [["#ring1", 0], ["#ring2", .7]].forEach(([id, off]) => {
+      const lt = t - 17.7 - off; const ph = lt < 0 ? 0 : (lt % 1.4) / 1.4;
+      $(id).style.transform = `scale(${.3 + ph * 1.2})`; $(id).style.opacity = lt < 0 ? 0 : (1 - ph) * .7;
+    });
+    $("#s6 .board").style.opacity = P(t, 17.6, 17.9);
+    $("#s6 .board").style.transform = `translateY(${(1 - eOut(P(t, 17.6, 17.9))) * 40}px)`;
+    STRIPS.forEach((s, i) => {
+      const st = 17.8, en = st + CONFIG.odometerDuration * (.6 + .4 * (i + 1) / STRIPS.length);
+      const idx = s.target * eOut(P(t, st, en));
+      s.strip.style.transform = `translateY(${-idx * 220}px)`;
+    });
+    $("#s6 .mxn").style.opacity = P(t, 19.9, 20.2);
+  }
+
+  /* 7 · 20.6 – 22.8 s : ¿TE INTERESARÍA? */
+  show(S.s7, t, 20.6, 22.8);
+  {
+    const w = eIO(P(t, 20.6, 20.95));
+    S.s7.style.clipPath = `circle(${w * 130}% at 50% 50%)`;
+    $("#s7 .te").style.opacity = P(t, 20.8, 21.05);
+    $("#s7 .te").style.transform = `translateY(${(1 - eOut(P(t, 20.8, 21.1))) * 60}px)`;
+    const punch = P(t, 21.05, 21.4);
+    $("#intW").style.opacity = P(t, 21.05, 21.15);
+    $("#intW").style.transform = `scale(${lerp(1.5, 1, eBack(punch, 1.6))})`;
+    [["#e1", 21.35], ["#e2", 21.75]].forEach(([id, st]) => {
+      const p = P(t, st, st + 1.1);
+      $(id).style.transform = `scale(${1 + eOut(p) * .35})`; $(id).style.opacity = p > 0 ? (1 - p) : 0;
+    });
+  }
+
+  /* 8 · 22.5 – 27 s : comentario + contacto */
+  show(S.s8, t, 22.5, DURATION + 1);
+  {
+    const w = eIO(P(t, 22.5, 22.85));
+    S.s8.style.clipPath = `circle(${w * 130}% at 50% 50%)`;
+    $("#s8 .head").style.opacity = P(t, 22.75, 23);
+    $("#ig").style.opacity = P(t, 22.7, 22.95);
+    $("#ig").style.transform = `translateY(${(1 - eOut(P(t, 22.7, 23.05))) * 80}px)`;
+    const word = "QUIERO", tStart = 23.0, posted = 23.0 + word.length * CONFIG.typeSpeed + 0.25;
+    const n = t < posted ? Math.floor(clamp((t - tStart) / CONFIG.typeSpeed, 0, word.length)) : 0;
+    $("#typed").textContent = word.slice(0, n);
+    $("#ph").style.visibility = n === 0 && t < tStart + 0.01 || t >= posted ? "visible" : "hidden";
+    $("#caret").style.opacity = (t < posted && Math.floor(t * 2.5) % 2 === 0) || (t >= tStart && t < posted && n < word.length) ? 1 : 0;
+    $("#caret").style.display = t >= tStart && t < posted ? "inline-block" : "none";
+    const active = n === word.length && t < posted;
+    $("#pub").style.opacity = active ? 1 : .4;
+    $("#pub").style.transform = `scale(${t > posted - .12 && t < posted + .08 ? .88 : 1})`;
+    const pp = eOut(P(t, posted, posted + .35));
+    $("#posted").style.height = pp * 110 + "px";
+    $("#posted").style.opacity = pp;
+    $("#divider").style.opacity = pp;
+    const hp = P(t, posted + .45, posted + .8);
+    $("#heartP").setAttribute("fill", hp > 0 ? "var(--brand)" : "none");
+    $("#s8 .heart").style.transform = `scale(${hp > 0 ? eBack(hp, 3) : 1})`;
+    const say0 = posted + .5;
+    $$("#s8 .say .clip>span").forEach((e, i) => reveal(e, P(t, say0 + i * .2, say0 + .5 + i * .2)));
+    const lg = P(t, say0 + .9, say0 + 1.35);
+    $("#logo").style.opacity = lg;
+    $("#logo").style.transform = `translateY(${(1 - eOut(lg)) * 50}px)`;
+    $("#legal").style.opacity = P(t, say0 + 1.3, say0 + 1.7) * .6;
+  }
+
+  $("#time").textContent = t.toFixed(1) + " / " + DURATION + " s";
+}
+
+/* ---------- reloj, loop y reinicio ---------- */
+const EXPORT = new URLSearchParams(location.search).has("export");
+let t0 = 0;
+function fit() {
+  const s = EXPORT ? 1 : Math.min(innerWidth / 1080, innerHeight / 1920);
+  $("#stage").style.transform = `scale(${s}) translate(-50%,-50%)`;
+}
+function loop(now) { render(((now - t0) / 1000) % DURATION); requestAnimationFrame(loop); }
+function restart() { t0 = performance.now(); }
+$("#restart").addEventListener("click", restart);
+addEventListener("keydown", e => { if (e.key === "r" || e.key === "R") restart(); });
+addEventListener("resize", fit);
+window.renderAt = render;  // usado por el exportador a MP4
+
+document.fonts.ready.then(() => {
+  fitHero(); fit(); render(0);
+  if (EXPORT) { document.body.classList.add("export"); window.__ready = true; }
+  else { restart(); requestAnimationFrame(loop); }
+});
+</script>
+</body>
+</html>
