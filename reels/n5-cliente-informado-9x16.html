@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cliente Informado Hoy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   COLORES: --navy = fondo de toda la pantalla (Navy oficial Nivel 5)
+            --key  = palabras clave (magenta del logo)
+            --cyan = acentos secundarios (azul claro del logo)
+   ============================================================ */
+:root{
+  --navy:#0A1422;
+  --key:#FF1F7A;
+  --cyan:#3DC0FF;
+  --white:#ffffff;
+  --w80:rgba(255,255,255,.8);
+  --w60:rgba(255,255,255,.6);
+  --w25:rgba(255,255,255,.25);
+  --w12:rgba(255,255,255,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--navy);overflow:hidden}
+body{font-family:"Inter",system-ui,sans-serif}
+#stage{position:absolute;left:50%;top:50%;width:1080px;height:1920px;overflow:hidden;color:var(--white);background:var(--navy);transform-origin:0 0}
+.scene{position:absolute;inset:0;visibility:hidden}
+em{font-style:normal;color:var(--key)}
+.c{color:var(--cyan)}
+
+#logo{position:absolute;left:70px;top:60px;height:130px}
+#logo img{height:130px;display:block}
+#tagTop{position:absolute;right:70px;top:110px;font:700 24px "Inter";letter-spacing:.28em;color:var(--w60)}
+
+.kicker{position:absolute;left:70px;right:70px;font:700 30px "Inter";letter-spacing:.3em;color:var(--cyan);text-transform:uppercase}
+.title{position:absolute;left:70px;right:70px;font:900 100px/1.04 "Montserrat";text-transform:uppercase;letter-spacing:-.01em}
+.title .ln{display:block;overflow:hidden;padding-bottom:4px}
+.title .ln>span{display:inline-block}
+.body{position:absolute;left:70px;right:70px;font:500 42px/1.4 "Inter";color:var(--w80)}
+.body b{color:var(--white);font-weight:700}
+.body em{font-weight:700}
+
+/* Escena 2: teléfono */
+.phone{position:absolute;left:290px;top:800px;width:500px;height:900px;border:6px solid var(--white);border-radius:70px;padding:70px 34px 40px;background:var(--navy)}
+.phone::before{content:"";position:absolute;left:50%;top:22px;width:130px;height:26px;border-radius:13px;background:var(--white);transform:translateX(-50%)}
+.search{height:84px;border:3px solid var(--w25);border-radius:42px;display:flex;align-items:center;gap:16px;padding:0 26px;font:600 28px "Inter";color:var(--white);white-space:nowrap}
+.search svg{width:34px;height:34px;flex:none;fill:none;stroke:var(--cyan);stroke-width:2.5;stroke-linecap:round}
+.caret{display:inline-block;width:3px;height:34px;background:var(--key);vertical-align:middle;margin-left:3px}
+.res{margin-top:24px;border-radius:26px;background:var(--w12);border:2px solid var(--w25);padding:24px;display:flex;align-items:center;gap:20px}
+.res .ic{width:76px;height:76px;flex:none;border-radius:20px;background:var(--key);display:flex;align-items:center;justify-content:center}
+.res .ic svg{width:44px;height:44px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.res .t{font:700 30px "Montserrat"}
+.res .s{font:500 22px "Inter";color:var(--w60);margin-top:4px}
+
+/* Escena 3: padre e hijo + medidores */
+.people{position:absolute;left:0;right:0;top:820px;height:380px}
+.people svg{width:100%;height:100%;overflow:visible}
+.ln-w{fill:none;stroke:var(--white);stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+.ln-k{fill:none;stroke:var(--key);stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+.ln-c{fill:none;stroke:var(--cyan);stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+.meters{position:absolute;left:70px;right:70px;top:1280px;display:flex;flex-direction:column;gap:34px}
+.meter .lb{display:flex;justify-content:space-between;font:700 34px "Montserrat";text-transform:uppercase;margin-bottom:14px}
+.meter .lb span:last-child{color:var(--key)}
+.meter .tr{height:26px;border-radius:13px;background:var(--w12);overflow:hidden}
+.meter .tr i{display:block;height:100%;width:0;border-radius:13px;background:linear-gradient(90deg,var(--cyan),var(--key))}
+
+/* Escena 4: misma línea */
+.tracks{position:absolute;left:70px;right:70px;top:880px;height:760px}
+.trk{position:absolute;left:0;right:0}
+#trClient{top:60px}#trAgent{top:300px}
+.trk .who{font:800 40px "Montserrat";letter-spacing:.14em;text-transform:uppercase;margin-bottom:20px}
+.trk .bar{height:70px;border-radius:35px;background:var(--w12);overflow:hidden}
+.trk .bar i{display:block;height:100%;width:0;border-radius:35px;background:var(--cyan)}
+#trAgent .bar i{background:var(--key)}
+.vline{position:absolute;top:0;bottom:300px;left:85%;width:0;border-left:5px dashed var(--key)}
+.vline span{position:absolute;left:-150px;top:-56px;width:300px;text-align:center;font:900 32px "Montserrat";letter-spacing:.14em;text-transform:uppercase;color:var(--key)}
+.tools{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between}
+.tools span{width:205px;height:170px;border-radius:30px;background:var(--w12);border:2px solid var(--w25);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;font:700 28px "Montserrat"}
+.tools svg{width:58px;height:58px;fill:none;stroke:var(--cyan);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* Escena 5: lo que el cliente no tiene */
+.lacks{position:absolute;left:70px;right:70px;top:880px;display:flex;flex-direction:column;gap:30px}
+.lack{display:flex;align-items:center;gap:34px;background:var(--white);color:var(--navy);border-radius:34px;padding:36px 40px;position:relative}
+.lack .ic{width:110px;height:110px;flex:none;border-radius:28px;background:var(--navy);display:flex;align-items:center;justify-content:center}
+.lack .ic svg{width:64px;height:64px;fill:none;stroke:var(--key);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.lack .t{font:900 52px/1.05 "Montserrat";text-transform:uppercase}
+.lack .s{font:500 28px "Inter";opacity:.7;margin-top:6px}
+.lack .x{position:absolute;right:34px;top:50%;width:70px;height:70px;margin-top:-35px;border-radius:50%;border:4px solid var(--key);display:flex;align-items:center;justify-content:center;color:var(--key);font:900 40px "Montserrat"}
+.youdo{position:absolute;left:0;right:0;top:1660px;text-align:center;font:900 64px "Montserrat";text-transform:uppercase}
+
+/* Escena 6: la suma */
+.sum{position:absolute;left:150px;right:150px;top:560px;display:flex;flex-direction:column;align-items:stretch}
+.chip{height:130px;border-radius:65px;border:4px solid var(--cyan);display:flex;align-items:center;justify-content:center;gap:24px;font:900 54px "Montserrat";text-transform:uppercase;letter-spacing:.04em}
+.chip svg{width:56px;height:56px;fill:none;stroke:var(--cyan);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.plus{height:70px;display:flex;align-items:center;justify-content:center;font:900 64px/1 "Montserrat";color:var(--key)}
+.eq{height:90px;display:flex;align-items:center;justify-content:center;font:900 80px/1 "Montserrat";color:var(--key)}
+.result{border-radius:40px;background:var(--key);padding:40px 40px;text-align:center;font:900 54px/1.15 "Montserrat";text-transform:uppercase;box-shadow:0 0 0 0 rgba(255,31,122,.5)}
+.result small{display:block;font:700 30px "Inter";text-transform:none;letter-spacing:0;margin-bottom:10px;opacity:.95}
+
+/* Escena 7: cierre */
+#s7 .bigLogo{position:absolute;left:0;right:0;top:1290px;text-align:center}
+#s7 .bigLogo img{height:380px}
+
+/* UI */
+#ui{position:fixed;right:20px;bottom:20px;display:flex;gap:10px;z-index:10}
+#ui button{font:600 15px "Inter",sans-serif;background:#fff;color:#111;border:0;border-radius:999px;padding:12px 20px;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.3)}
+#time{position:fixed;left:20px;bottom:24px;color:#8a93a3;font:500 13px "Inter",sans-serif;z-index:10}
+body.export #ui,body.export #time{display:none}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="logo"><img src="n5-logo.png" alt="Nivel 5 Realty Group"></div>
+  <div id="tagTop">PARA AGENTES</div>
+
+  <!-- 1 · Hoy el cliente está más informado -->
+  <section class="scene" id="s1">
+    <div class="kicker" style="top:560px">Agente, esto es lo que pasa hoy</div>
+    <div class="title" style="top:650px;font-size:124px">
+      <span class="ln"><span>Hoy el</span></span>
+      <span class="ln"><span>cliente está</span></span>
+      <span class="ln"><span><em>más</em></span></span>
+      <span class="ln"><span><em>informado</em></span></span>
+    </div>
+    <div class="body" style="top:1260px">Llega con <em>conocimientos básicos y avanzados</em> gracias a las <b>herramientas tecnológicas</b> que hoy existen.</div>
+  </section>
+
+  <!-- 2 · Información en la palma de su mano -->
+  <section class="scene" id="s2">
+    <div class="title" style="top:290px;font-size:92px">
+      <span class="ln"><span>Tiene la información</span></span>
+      <span class="ln"><span>en la <em>palma</em></span></span>
+      <span class="ln"><span><em>de su mano</em></span></span>
+    </div>
+    <div class="phone" id="phone">
+      <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><span id="q"></span><span class="caret" id="caret"></span></div>
+      <div class="res"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 21s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg></div><div><div class="t">Precios por zona</div><div class="s">Comparativos al instante</div></div></div>
+      <div class="res"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M4 16l5-5 4 3 7-8"/><path d="M15 6h5v5"/></svg></div><div><div class="t">Plusvalía</div><div class="s">Tendencias del mercado</div></div></div>
+      <div class="res"><div class="ic"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/></svg></div><div><div class="t">Créditos y trámites</div><div class="s">Guías y simuladores</div></div></div>
+    </div>
+  </section>
+
+  <!-- 3 · O su hijo menor -->
+  <section class="scene" id="s3">
+    <div class="title" style="top:270px;font-size:92px">
+      <span class="ln"><span>Y si no,</span></span>
+      <span class="ln"><span>su <em>hijo menor</em></span></span>
+      <span class="ln"><span>tiene acceso</span></span>
+      <span class="ln"><span>a ella</span></span>
+    </div>
+    <div class="people" style="top:780px">
+      <svg viewBox="0 0 1080 380">
+        <circle class="ln-w" pathLength="1" cx="400" cy="110" r="64"/>
+        <path class="ln-w" pathLength="1" d="M270 360c14-90 70-140 130-140s116 50 130 140"/>
+        <circle class="ln-c" pathLength="1" cx="680" cy="170" r="48"/>
+        <path class="ln-c" pathLength="1" d="M590 360c10-66 50-104 90-104s80 38 90 104"/>
+        <rect class="ln-k" pathLength="1" x="740" y="40" width="80" height="140" rx="16"/>
+        <path class="ln-k" pathLength="1" d="M765 160h30"/>
+        <path class="ln-k" pathLength="1" d="M760 20c30-26 60-26 80 0M772 6c20-14 36-14 56 0" id="wifi"/>
+      </svg>
+    </div>
+    <div class="meters">
+      <div class="meter"><div class="lb"><span>Conocimiento básico</span><span id="m1v">0%</span></div><div class="tr"><i id="m1"></i></div></div>
+      <div class="meter"><div class="lb"><span>Conocimiento avanzado</span><span id="m2v">0%</span></div><div class="tr"><i id="m2"></i></div></div>
+    </div>
+  </section>
+
+  <!-- 4 · Debes estar en la misma línea -->
+  <section class="scene" id="s4">
+    <div class="kicker" style="top:270px">Eso significa que tú, como agente…</div>
+    <div class="title" style="top:340px;font-size:96px">
+      <span class="ln"><span>Debes estar en</span></span>
+      <span class="ln"><span>la <em>misma línea</em></span></span>
+    </div>
+    <div class="body" style="top:600px">en el <em>uso de herramientas</em> que ya domina tu cliente.</div>
+    <div class="tracks">
+      <div class="trk" id="trClient"><div class="who">Cliente</div><div class="bar"><i></i></div></div>
+      <div class="trk" id="trAgent"><div class="who" style="color:var(--key)">Agente</div><div class="bar"><i></i></div></div>
+      <div class="vline" id="vline"><span>Misma línea</span></div>
+      <div class="tools" id="tools">
+        <span><svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M11 18.5h2"/></svg>Apps</span>
+        <span><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>Búsqueda</span>
+        <span><svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M4 16l5-5 4 3 7-8"/></svg>Datos</span>
+        <span><svg viewBox="0 0 24 24"><path d="M12 3l2.2 5.6L20 9.3l-4.4 3.9 1.3 5.8L12 16l-4.9 3 1.3-5.8L4 9.3l5.8-.7z"/></svg>IA</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · Lo que el cliente NO tiene -->
+  <section class="scene" id="s5">
+    <div class="title" style="top:300px;font-size:96px">
+      <span class="ln"><span>Pero hay algo</span></span>
+      <span class="ln"><span>que el cliente</span></span>
+      <span class="ln"><span><em>no tiene</em></span></span>
+    </div>
+    <div class="lacks">
+      <div class="lack"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="5.5"/><path d="M8.5 13.5L7 21l5-2.5 5 2.5-1.5-7.5"/><path d="M10 9l1.5 1.5L14.5 7.5"/></svg></div><div><div class="t">Experiencia</div><div class="s">Años cerrando operaciones reales</div></div><div class="x">✕</div></div>
+      <div class="lack"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><path d="M8.7 10.6l6.6-3.2M8.7 13.4l6.6 3.2"/></svg></div><div><div class="t">Alianzas</div><div class="s">Notarios, despachos, desarrolladores</div></div><div class="x">✕</div></div>
+      <div class="lack"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="5" cy="18" r="2.2"/><circle cx="19" cy="6" r="2.2"/><path d="M7 18h6a3 3 0 0 0 0-6h-2a3 3 0 0 1 0-6h6"/></svg></div><div><div class="t">El proceso real</div><div class="s">Cómo se compra una propiedad, paso a paso</div></div><div class="x">✕</div></div>
+    </div>
+    <div class="youdo" id="youdo">…y <em>tú sí</em>.</div>
+  </section>
+
+  <!-- 6 · La suma -->
+  <section class="scene" id="s6">
+    <div class="kicker" style="top:300px;text-align:center">Si como agente sumas</div>
+    <div class="title" style="top:375px;font-size:70px;text-align:center"><span class="ln"><span>la <em>fórmula</em> es clara</span></span></div>
+    <div class="sum">
+      <div class="chip"><svg viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5.3 5.3L3.5 17.5l3 3 5.7-5.7a4 4 0 0 0 5.3-5.3l-2.6 2.6-2.4-.6-.6-2.4z"/></svg>Herramientas</div>
+      <div class="plus">+</div>
+      <div class="chip"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>Tecnología</div>
+      <div class="plus">+</div>
+      <div class="chip"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="5.5"/><path d="M8.5 13.5L7 21l5-2.5 5 2.5-1.5-7.5"/></svg>Experiencia</div>
+      <div class="plus">+</div>
+      <div class="chip"><svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><path d="M8.7 10.6l6.6-3.2M8.7 13.4l6.6 3.2"/></svg>Alianzas</div>
+      <div class="eq">=</div>
+      <div class="result" id="result"><small>Te conviertes en el agente que garantiza una</small>Transacción exitosa</div>
+    </div>
+  </section>
+
+  <!-- 7 · Cierre -->
+  <section class="scene" id="s7">
+    <div class="title" style="top:330px;font-size:98px;text-align:center">
+      <span class="ln"><span>El cliente trae</span></span>
+      <span class="ln"><span><span class="c">información</span>.</span></span>
+      <span class="ln"><span>Tú pones la</span></span>
+      <span class="ln"><span><em>experiencia</em>.</span></span>
+    </div>
+    <div class="body" style="top:1050px;text-align:center;font-size:38px">Súmale <b>herramientas, tecnología y alianzas</b>:<br>así garantizas una <em>transacción exitosa</em>.</div>
+    <div class="bigLogo"><img src="n5-logo.png" alt="Nivel 5 Realty Group"></div>
+  </section>
+</div>
+
+<div id="time"></div>
+<div id="ui"><button id="restart" type="button">↻ Reiniciar</button></div>
+
+<script>
+const DURATION = 42;
+window.DURATION = DURATION;
+const CONFIG = {
+  query: "propiedades en venta",
+  typeSpeed: 0.07,
+};
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const P = (t, a, b) => clamp((t - a) / (b - a));
+const eOut = x => 1 - Math.pow(1 - x, 3);
+const eIn = x => x * x * x;
+const eIO = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const eBack = (x, s = 1.8) => x <= 0 ? 0 : x >= 1 ? 1 : 1 + (s + 1) * Math.pow(x - 1, 3) + s * Math.pow(x - 1, 2);
+const set = (el, o, tr) => { el.style.opacity = o; if (tr !== undefined) el.style.transform = tr; };
+const rise = (el, p, d = 50) => set(el, p, `translateY(${(1 - eOut(p)) * d}px)`);
+
+/* ---------- escenas ---------- */
+const SC = [
+  {id: "s1", a: 0,  b: 6.2},
+  {id: "s2", a: 6,  b: 12.7},
+  {id: "s3", a: 12.5, b: 18.7},
+  {id: "s4", a: 18.5, b: 24.7},
+  {id: "s5", a: 24.5, b: 31.2},
+  {id: "s6", a: 31,  b: 37.2},
+  {id: "s7", a: 37,  b: DURATION + 1},
+].map(s => ({...s, el: document.getElementById(s.id)}));
+
+// entrada/salida común: líneas del título, kicker y texto
+function frame(s, t, last) {
+  const {el, a, b} = s;
+  const out = last ? 0 : eIn(P(t, b - .45, b - .05));
+  el.style.opacity = 1 - out;
+  el.style.transform = `translateY(${-out * 80}px)`;
+  const k = el.querySelector(".kicker"); if (k) rise(k, P(t, a + .1, a + .5), 30);
+  $$(".title .ln>span", el).forEach((sp, i) => {
+    const p = eOut(P(t, a + .25 + i * .16, a + .75 + i * .16));
+    sp.style.transform = `translateY(${(1 - p) * 110}%)`;
+  });
+}
+const draw = (els, t, a, gap, dur) => els.forEach((p, i) => {
+  p.style.strokeDasharray = 1; p.style.strokeDashoffset = 1 - eIO(P(t, a + i * gap, a + i * gap + dur));
+});
+
+function render(t) {
+  SC.forEach(s => s.el.style.visibility = (t >= s.a && t < s.b) ? "visible" : "hidden");
+  set($("#logo"), Math.min(P(t, .1, .5), 1 - P(t, 36.6, 37)));
+  set($("#tagTop"), Math.min(P(t, .3, .7), 1 - P(t, 36.6, 37)));
+
+  /* 1 */
+  { const s = SC[0]; frame(s, t);
+    rise($("#s1 .body"), P(t, 1.8, 2.3), 40); }
+
+  /* 2 */
+  { const s = SC[1]; frame(s, t);
+    const ph = P(t, 6.4, 7.0);
+    set($("#phone"), ph, `translateY(${(1 - eBack(ph, 1.4)) * 300}px)`);
+    const n = Math.floor(clamp((t - 7.2) / CONFIG.typeSpeed, 0, CONFIG.query.length));
+    $("#q").textContent = CONFIG.query.slice(0, n);
+    $("#caret").style.opacity = (n < CONFIG.query.length || Math.floor(t * 2.5) % 2) ? 1 : 0;
+    $$("#s2 .res").forEach((r, i) => {
+      const p = P(t, 9.3 + i * .45, 9.8 + i * .45);
+      set(r, p, `translateX(${(1 - eBack(p, 1.6)) * 200}px)`);
+    }); }
+
+  /* 3 */
+  { const s = SC[2]; frame(s, t);
+    draw($$("#s3 [pathLength]"), t, 13.2, .14, .7);
+    const wf = $("#wifi"); wf.style.opacity = t > 14.2 ? (.4 + .6 * Math.abs(Math.sin(t * 3))) : 0;
+    $$("#s3 .meter").forEach((m, i) => rise(m, P(t, 14.6 + i * .3, 15 + i * .3), 30));
+    [["#m1", "#m1v", 15.2], ["#m2", "#m2v", 15.8]].forEach(([bar, val, st]) => {
+      const p = eOut(P(t, st, st + 1.4));
+      $(bar).style.width = (p * 100) + "%";
+      $(val).textContent = Math.round(p * 100) + "%";
+    }); }
+
+  /* 4 */
+  { const s = SC[3]; frame(s, t);
+    rise($("#s4 .body"), P(t, 19.4, 19.8), 30);
+    rise($("#trClient"), P(t, 19.8, 20.2), 30);
+    rise($("#trAgent"), P(t, 20.0, 20.4), 30);
+    $("#trClient .bar i").style.width = (eOut(P(t, 20.3, 21.3)) * 85) + "%";
+    const ag = eOut(P(t, 20.5, 21.2)) * 35 + eIO(P(t, 22.2, 23.2)) * 50;
+    $("#trAgent .bar i").style.width = ag + "%";
+    const vl = P(t, 21.4, 21.8);
+    set($("#vline"), vl);
+    $("#vline span").style.transform = `scale(${t > 23.2 ? 1 + Math.sin(P(t, 23.2, 23.6) * Math.PI) * .15 : 1})`;
+    $$("#tools span").forEach((sp, i) => { const p = P(t, 22.0 + i * .2, 22.4 + i * .2); set(sp, p, `translateY(${(1 - eBack(p, 2)) * 60}px)`); });
+  }
+
+  /* 5 */
+  { const s = SC[4]; frame(s, t);
+    $$("#s5 .lack").forEach((c, i) => {
+      const p = P(t, 25.6 + i * .5, 26.2 + i * .5);
+      set(c, p, `translateX(${(1 - eBack(p, 1.5)) * (i % 2 ? 700 : -700)}px)`);
+      const x = c.querySelector(".x"), xp = P(t, 27.4 + i * .25, 27.7 + i * .25);
+      set(x, xp, `scale(${eBack(xp, 2.6)})`);
+    });
+    const y = P(t, 28.9, 29.4);
+    set($("#youdo"), y, `scale(${.7 + .3 * eBack(y, 2.2)})`); }
+
+  /* 6 */
+  { const s = SC[5]; frame(s, t);
+    const items = $$("#s6 .sum > *");
+    items.forEach((it, i) => {
+      const st = 31.6 + i * .32, p = P(t, st, st + .4);
+      set(it, p, `scale(${.6 + .4 * eBack(p, 2)})`);
+    });
+    const r = P(t, 34.8, 35.3);
+    $("#result").style.boxShadow = r ? `0 0 0 ${Math.sin(Math.min(1, P(t, 35.3, 36.3)) * Math.PI) * 26}px rgba(255,31,122,.35)` : ""; }
+
+  /* 7 */
+  { const s = SC[6]; frame(s, t, true);
+    rise($("#s7 .body"), P(t, 38.6, 39.1), 40);
+    const lg = P(t, 39.2, 39.9);
+    set($("#s7 .bigLogo"), lg, `scale(${.7 + .3 * eBack(lg, 1.8)})`); }
+
+  $("#time").textContent = t.toFixed(1) + " / " + DURATION + " s";
+}
+
+/* ---------- reloj, loop y reinicio ---------- */
+const EXPORT = new URLSearchParams(location.search).has("export");
+let t0 = 0;
+function fit() {
+  const s = EXPORT ? 1 : Math.min(innerWidth / 1080, innerHeight / 1920);
+  $("#stage").style.transform = `scale(${s}) translate(-50%,-50%)`;
+}
+function loop(now) { render(((now - t0) / 1000) % DURATION); requestAnimationFrame(loop); }
+function restart() { t0 = performance.now(); }
+$("#restart").addEventListener("click", restart);
+addEventListener("keydown", e => { if (e.key === "r" || e.key === "R") restart(); });
+addEventListener("resize", fit);
+window.renderAt = render;
+
+const imgsReady = Promise.all($$("img").map(i => i.complete ? 1 : new Promise(r => { i.onload = i.onerror = r; })));
+Promise.all([document.fonts.ready, imgsReady]).then(() => {
+  fit(); render(0);
+  if (EXPORT) { document.body.classList.add("export"); window.__ready = true; }
+  else { restart(); requestAnimationFrame(loop); }
+});
+</script>
+</body>
+</html>
